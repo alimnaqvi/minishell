@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 20:24:50 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/24 20:32:39 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int argc, char **argv, char **envp)
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		minishell.input = ft_readline(&minishell); /*uses readline, checks NULL input, updates t_garbage, saves history*/
+		minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
 		printf("You typed %s!\n", minishell.input);
 		/*main logic of minishell comes here*/
 		gc_free(minishell.input, &minishell);

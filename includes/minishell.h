@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 19:59:53 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/24 23:14:47 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
+# include <stdint.h>
 
 /* Holds everything that needs to be cleaned up before exiting.
 @param allocs Pointer to the start of linked list that contains
@@ -85,15 +87,17 @@ typedef struct s_minishell
 }	t_minishell;
 
 // Garbage collector:
-/*Allocate `size` bytes of memory and add it to the garbage collector*/
+/*Allocate `size` bytes of memory and add it to the garbage collector.
+If malloc fails, exit the program immediately.*/
 void	*gc_malloc(size_t size, t_minishell *minishell);
 /* Add `ptr` to the garbage collector*/
 void	gc_add_to_allocs(void *ptr, t_minishell *minishell);
-/* Find the node that contains `ptr`, frees `ptr`, and delete the node
+/* Find the node that contains `ptr`, free `ptr`, and delete the node
 from the list (and free it)*/
 void	gc_free(void *ptr, t_minishell *minishell);
 /*Free/close everything in the garbage collector and exit with
 the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
+void	free_check_null(void *ptr);
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 18:15:15 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 20:18:35 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/24 23:13:54 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-static void	free_check_null(void *ptr)
+void	free_check_null(void *ptr)
 {
 	if (ptr)
 		free(ptr);
@@ -27,14 +27,13 @@ void	*gc_malloc(size_t size, t_minishell *minishell)
 	if (!ptr)
 	{
 		ft_putendl_fd("malloc failed", STDERR_FILENO);
-		ft_lstclear(&(minishell->garbage.allocs), free_check_null);
 		gc_exit(minishell, EXIT_FAILURE);
 	}
 	alloc_node = ft_lstnew(ptr);
 	if (!alloc_node)
 	{
 		ft_putendl_fd("malloc failed", STDERR_FILENO);
-		ft_lstclear(&(minishell->garbage.allocs), free_check_null);
+		free(ptr);
 		gc_exit(minishell, EXIT_FAILURE);
 	}
 	ft_lstadd_front(&(minishell->garbage.allocs), alloc_node);
@@ -51,7 +50,6 @@ void	gc_add_to_allocs(void *ptr, t_minishell *minishell)
 	if (!alloc_node)
 	{
 		ft_putendl_fd("malloc failed", STDERR_FILENO);
-		ft_lstclear(&(minishell->garbage.allocs), free_check_null);
 		gc_exit(minishell, EXIT_FAILURE);
 	}
 	ft_lstadd_front(&(minishell->garbage.allocs), alloc_node);
@@ -84,13 +82,4 @@ void	gc_free(void *ptr, t_minishell *minishell)
 		prev = current;
 		current = current->next;
 	}
-}
-
-/*Free/close everything in the garbage collector and exit with
-the provided exit code*/
-void	gc_exit(t_minishell *minishell, int exit_status)
-{
-	ft_lstclear(&(minishell->garbage.allocs), free_check_null);
-	// close fds
-	exit(exit_status);
 }
