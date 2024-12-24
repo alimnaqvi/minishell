@@ -1,0 +1,13 @@
+a.out*
+*.out
+minishell
+*.o
+*.obj
+*/*.o
+*.a
+*/*.a
+.vscode
+.DS_Store
+*.dylib
+*.dSYM/
+test*
