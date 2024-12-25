@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:10:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/25 12:30:47 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/25 13:47:46 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	**copy_2d_char_arr(char **arr, t_minishell *minishell)
 	if (!arr)
 		return (NULL);
 	arr_len = get_array_size(arr);
-	result = gc_malloc((sizeof(char *) * arr_len) + 1, minishell);
+	result = gc_malloc(sizeof(char *) * (arr_len + 1), minishell);
 	i = 0;
 	while (arr[i])
 	{
