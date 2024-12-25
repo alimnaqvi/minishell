@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 20:32:39 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/25 13:23:15 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,7 @@ static t_minishell init_main_var(int argc, char **argv, char **envp)
 	minishell.garbage.allocs = NULL;
 	minishell.garbage.open_fds = NULL;
 	minishell.input = NULL;
-	minishell.mini_env = copy_arr(envp);
-
+	minishell.mini_env = copy_2d_char_arr(envp, &minishell);
 	return (minishell);
 }
 
@@ -33,10 +32,14 @@ int	main(int argc, char **argv, char **envp)
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
-		printf("You typed %s!\n", minishell.input);
+		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
+		minishell.input = readline("minishell$ ");
+		gc_add_to_allocs(minishell.input, &minishell);
+		if (!minishell.input)
+			break ;
+		printf("You typed \"%s\"!\n", minishell.input);
 		/*main logic of minishell comes here*/
 		gc_free(minishell.input, &minishell);
 	}
-	return (0);
+	gc_exit(&minishell, EXIT_SUCCESS);
 }

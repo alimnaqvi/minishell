@@ -3,14 +3,17 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS_DIR = srcs
-SRCS = $(addprefix $(SRCS_DIR)/, main.c) # to be updated
+SRCS = $(addprefix $(SRCS_DIR)/, main.c \
+		garbage_collector/memory.c garbage_collector/fds.c \
+		utils/utils.c \
+		) # to be updated
 
 OBJS_DIR = objs
-OBJS = $(addprefix $(OBJS_DIR)/, $(notdir $(SRCS:.c=.o)))
+OBJS = $(patsubst $(SRCS_DIR)/%.c,$(OBJS_DIR)/%.o,$(SRCS))
 
 HEADERS = -I ./includes -I $(LIBFT_DIR)/includes
 
-	LIBS = $(LIBFT) -lreadline
+LIBS = $(LIBFT) -lreadline
 
 LIBFT_DIR = lib/libft
 LIBFT = $(LIBFT_DIR)/libft.a
@@ -25,11 +28,9 @@ $(NAME): $(OBJS) $(LIBFT)
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c includes/fdf.h | $(OBJS_DIR)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c includes/minishell.h
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(HEADERS) -c $< -o $@
-
-$(OBJS_DIR):
-	mkdir -p $@
 
 clean:
 	rm -rf $(OBJS_DIR)

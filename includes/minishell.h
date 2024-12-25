@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 23:14:47 by anaqvi           ###   ########.fr       */
+/*   Updated: 2024/12/25 12:34:21 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,24 @@ void	gc_add_to_allocs(void *ptr, t_minishell *minishell);
 /* Find the node that contains `ptr`, free `ptr`, and delete the node
 from the list (and free it)*/
 void	gc_free(void *ptr, t_minishell *minishell);
+/*Custom `open` that adds the fd to the garbage collector.
+If opening fails, exits the program immediately. */
+int		gc_open(char *file, int flags, mode_t mode, t_minishell *minishell);
+/*Add `fd` to garbage collector. Should be used in case a file descriptor 
+was opened through some means other than `gc_open*/
+void	gc_add_to_open_fds(int fd, t_minishell *minishell);
+/*Find the node that contains `fd`, close `fd`, and delete the node
+from the list (and free it)*/
+void	gc_close(int fd, t_minishell *minishell);
 /*Free/close everything in the garbage collector and exit with
 the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
+/*Only meant to be used in the garbage collector. Do not use elsewhere*/
 void	free_check_null(void *ptr);
+
+// utils
+/*Make a copy of a `char **` (2-dimensional array of characters).
+If malloc fails, exit the program immediately.*/
+char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
 
 #endif
