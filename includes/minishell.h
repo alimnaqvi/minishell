@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/25 12:34:21 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/05 13:02:54 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_minishell
 	t_garbage	garbage;
 	char		*input;
 	char		**mini_env;
+	char		**tokenized;
 }	t_minishell;
 
 // Garbage collector:
