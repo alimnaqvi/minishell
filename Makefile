@@ -5,6 +5,7 @@ CFLAGS = -Wall -Wextra -Werror
 SRCS_DIR = srcs
 SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		garbage_collector/memory.c garbage_collector/fds.c \
+		parser/parser.c \
 		utils/utils.c \
 		) # to be updated
 

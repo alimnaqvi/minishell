@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/25 13:42:33 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/05 17:07:31 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static t_minishell init_main_var(int argc, char **argv, char **envp)
 	minishell.garbage.open_fds = NULL;
 	minishell.input = NULL;
 	minishell.mini_env = copy_2d_char_arr(envp, &minishell);
+	minishell.tokenized = NULL;
 	return (minishell);
 }
 
@@ -39,6 +40,11 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		printf("You typed \"%s\"!\n", minishell.input);
 		/*main logic of minishell comes here*/
+		/*lexer here*/
+		if (parser(&minishell) != -1)
+			// execution
+		/*free minishell.tokenized*/
+		/*free minishell.cmd_grp_strt*/
 		gc_free(minishell.input, &minishell);
 	}
 	gc_exit(&minishell, EXIT_SUCCESS);
