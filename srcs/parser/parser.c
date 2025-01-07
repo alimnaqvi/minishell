@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/07 16:42:20 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/07 17:24:29 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ static int	create_pipe(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 	return (0);
 }
 
-static int	count_args(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
+static int	count_args(t_minishell *minishell, int *i)
 {
 	int	arg_count;
 
@@ -245,7 +245,7 @@ static int	is_external_cmd(char *cmd_name)
 }
 
 static char	**copy_cmd_args(t_minishell *minishell, int arg_count,
-int cmd_start, t_cmd_grp *cmd_grp_node)
+int cmd_start)
 {
 	char	**cmd_args;
 	int		j;
@@ -277,7 +277,7 @@ static int	update_cmd_grp_cmds(t_minishell *minishell, int *i, t_cmd_grp *cmd_gr
 		if (create_pipe(minishell, cmd_grp_node) == -1)
 			return (-1);
 	}
-	arg_count = count_args(minishell, i, cmd_grp_node);
+	arg_count = count_args(minishell, i);
 	if (arg_count == -1 || arg_count == 0)
 		return (-1);
 	if (is_external_cmd(minishell->tokenized[cmd_start]))
@@ -285,8 +285,7 @@ static int	update_cmd_grp_cmds(t_minishell *minishell, int *i, t_cmd_grp *cmd_gr
 	else
 		cmd_grp_node->cmd_type = BUILTIN;
 	cmd_grp_node->cmd_name = ft_strdup(minishell->tokenized[cmd_start]);
-	cmd_grp_node->cmd_args = copy_cmd_args(minishell, arg_count, cmd_start,
-		cmd_grp_node);
+	cmd_grp_node->cmd_args = copy_cmd_args(minishell, arg_count, cmd_start);
 	if (!(cmd_grp_node->cmd_name) || !(cmd_grp_node->cmd_args))
 		return (-1);
 	gc_add_to_allocs(cmd_grp_node->cmd_name, minishell);
