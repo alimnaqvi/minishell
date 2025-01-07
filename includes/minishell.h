@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/05 13:02:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/07 15:18:02 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,14 @@ typedef struct s_minishell
 	char		**mini_env;
 	char		**tokenized;
 }	t_minishell;
+
+// parser
+/*- Take the `char **` from lexer and form “groups” of commands,
+separated by pipes (`|`), and save them as a linked list of t_cmd_grp.
+- Create pipes with `pipe` function
+- If command as given is not executable, search the `PATH` to look for
+the command and make it `execve`-ready*/
+int	parser(t_minishell *minishell);
 
 // Garbage collector:
 /*Allocate `size` bytes of memory and add it to the garbage collector.

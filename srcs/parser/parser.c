@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/07 15:05:02 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/07 15:34:00 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -313,7 +313,7 @@ static char	**get_paths(char **mini_env, t_minishell *minishell)
 	i = 0;
 	while (paths[i])
 	{
-		gc_add_to_allocs(paths[i], mini_env);
+		gc_add_to_allocs(paths[i], minishell);
 		i++;
 	}
 	return (paths);
@@ -385,7 +385,7 @@ int	parser(t_minishell *minishell)
 			{
 				if (update_cmd_grp_cmds(minishell, &i, cmd_grp_node) == -1
 					|| find_full_cmd_path(minishell, cmd_grp_node) == -1)
-					return (gc_free(cmd_grp_node, minishell), -1);
+					return (gc_free(cmd_grp_node, minishell), -1); // need to free this properly
 			}
 		}
 		add_back_cmd_group(minishell, cmd_grp_node);
