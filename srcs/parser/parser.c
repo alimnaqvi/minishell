@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/07 15:34:00 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/07 16:42:20 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,7 +164,9 @@ static int update_cmd_grp_fds(t_minishell *minishell, t_cmd_grp *cmd_grp_node, c
 		cmd_grp_node->out_fd = handle_outfile(s2, O_TRUNC, minishell);
 	else if (!ft_strncmp(s1, ">>", 3))
 		cmd_grp_node->out_fd = handle_outfile(s2, O_APPEND, minishell);
-	return (cmd_grp_node->in_fd);
+	if (cmd_grp_node->in_fd == -1 || cmd_grp_node->out_fd == -1)
+		return (-1);
+	return (0);
 }
 
 static int is_redir_opr(char *token)
@@ -224,7 +226,7 @@ static int	count_args(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 		arg_count++;
 		(*i)++;
 	}
-	return (0);
+	return (arg_count);
 }
 
 static int	is_external_cmd(char *cmd_name)
@@ -389,6 +391,8 @@ int	parser(t_minishell *minishell)
 			}
 		}
 		add_back_cmd_group(minishell, cmd_grp_node);
-		i++;
+		if (minishell->tokenized[i])
+			i++;
 	}
+	return (0);
 }
