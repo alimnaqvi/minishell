@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/05 17:07:31 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 13:57:45 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,14 @@ static t_minishell init_main_var(int argc, char **argv, char **envp)
 	return (minishell);
 }
 
+static void	cleanup_before_loop(t_minishell *minishell)
+{
+	gc_free_2d_char_arr(minishell->tokenized, minishell);
+	minishell->tokenized = NULL;
+	gc_free_cmd_grps(minishell);
+	gc_free(minishell->input, minishell);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
@@ -39,13 +47,10 @@ int	main(int argc, char **argv, char **envp)
 		if (!minishell.input)
 			break ;
 		printf("You typed \"%s\"!\n", minishell.input);
-		/*main logic of minishell comes here*/
 		/*lexer here*/
 		if (parser(&minishell) != -1)
 			// execution
-		/*free minishell.tokenized*/
-		/*free minishell.cmd_grp_strt*/
-		gc_free(minishell.input, &minishell);
+		cleanup_before_loop(&minishell);
 	}
 	gc_exit(&minishell, EXIT_SUCCESS);
 }

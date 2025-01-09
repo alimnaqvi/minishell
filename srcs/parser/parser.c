@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/07 17:24:29 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 14:00:04 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,10 +183,9 @@ static int is_redir_opr(char *token)
 
 static int	create_pipe(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 {
-	int	*pipefd;
+	int			pipefd[2];
 	t_cmd_grp	*last;
 
-	pipefd = gc_malloc(sizeof(int) * 2, minishell);
 	if (pipe(pipefd) == -1)
 		return(perror("minishell: pipe failed"), -1);
 	gc_add_to_open_fds(pipefd[0], minishell);
@@ -355,6 +354,7 @@ static int	find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 			return (0);
 		paths = get_paths(minishell->mini_env, minishell);
 		find_executable(cmd_grp_node, paths, minishell);
+		gc_free_2d_char_arr(paths, minishell);
 	}
 	return (0);
 }
@@ -386,7 +386,7 @@ int	parser(t_minishell *minishell)
 			{
 				if (update_cmd_grp_cmds(minishell, &i, cmd_grp_node) == -1
 					|| find_full_cmd_path(minishell, cmd_grp_node) == -1)
-					return (gc_free(cmd_grp_node, minishell), -1); // need to free this properly
+					return (gc_free_cmd_grps(minishell), -1);
 			}
 		}
 		add_back_cmd_group(minishell, cmd_grp_node);

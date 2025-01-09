@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/07 15:18:02 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 14:15:13 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -55,7 +55,7 @@ information delimited by pipes or by start/end of the command-line.
 (if < or << is present in the cmd group).
 @param out_fd Default is stdout, but could be the read end of a pipe
 (if | comes after the cmd group) or a file redirection
-(if > oor >> is present in the cmd group).
+(if > or >> is present in the cmd group).
 @param previous Previous node in the linked list.
 @param next Next node in the linked list.
 */
@@ -118,6 +118,10 @@ the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
 /*Only meant to be used in the garbage collector. Do not use elsewhere*/
 void	free_check_null(void *ptr);
+/*Uses gc_free and gc_close to clean up the linked list of `t_cmd_grp`*/
+void	gc_free_cmd_grps(t_minishell *minishell);
+/*Frees the `char **` given to it using gc_free*/
+void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
 
 // utils
 /*Make a copy of a `char **` (2-dimensional array of characters).
