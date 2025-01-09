@@ -6,7 +6,8 @@ SRCS_DIR = srcs
 SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		garbage_collector/malloc.c garbage_collector/free.c \
 		garbage_collector/fds.c \
-		parser/parser.c \
+		parser/parser.c parser/cmd_grp_fds.c parser/cmd_grp_cmds.c \
+		parser/cmd_path.c\
 		utils/utils.c \
 		) # to be updated
 

@@ -6,11 +6,11 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 20:26:16 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 23:13:49 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 15:15:22 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	ft_close(void *ptr)
 {
