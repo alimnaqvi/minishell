@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/05 13:02:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 15:25:28 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -55,7 +55,7 @@ information delimited by pipes or by start/end of the command-line.
 (if < or << is present in the cmd group).
 @param out_fd Default is stdout, but could be the read end of a pipe
 (if | comes after the cmd group) or a file redirection
-(if > oor >> is present in the cmd group).
+(if > or >> is present in the cmd group).
 @param previous Previous node in the linked list.
 @param next Next node in the linked list.
 */
@@ -87,6 +87,35 @@ typedef struct s_minishell
 	char		**tokenized;
 }	t_minishell;
 
+// parser
+/*- Take the `char **` from lexer and form “groups” of commands,
+separated by pipes (`|`), and save them as a linked list of t_cmd_grp.
+- Create pipes with `pipe` function
+- If command as given is not executable, search the `PATH` to look for
+the command and make it `execve`-ready*/
+int		parser(t_minishell *minishell);
+/*`s1` and `s2` are expected to be redirection operator and filename
+(or delimiter in case of heredoc), respectively Depending on the operator,
+open or create the file, or prompt the user for input in case of heredoc.
+Update the `cmd_grp_node.in_fd` and `cmd_grp_node.out_fd` accordingly.
+Return 0 on success and -1 on error, printing error message accordingly.*/
+int		update_cmd_grp_fds(t_minishell *minishell, t_cmd_grp *cmd_grp_node,
+			char *s1, char *s2);
+/*Update `cmd_grp_node.cmd_name` and `cmd_grp_node.cmd_args` depending on
+`minishell.tokenized[*i]` until a `|`, NULL, or an unsupported token
+is encountered, incrementing `*i` accordingly. Also update
+`cmd_grp_node.cmd_type`. If `minishell.tokenized[*(i-1)]` is a pipe, create pipe
+and update `cmd_grp_node.in_fd` and `cmd_grp_node.out_fd` of the appropriate
+cmd_grp. Return 0 on success and -1 on error, printing error message
+accordingly.*/
+int		update_cmd_grp_cmds(t_minishell *minishell, int *i,
+			t_cmd_grp *cmd_grp_node);
+/*Replace `cmd_name` in `cmd_grp_node` with its absolute path, if found on
+the `PATH` and if `cmd_name` is not a builtin */
+int		find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node);
+/*Return 1 if `token` is one of the four redirection operators, 0 otherwise*/
+int		is_redir_opr(char *token);
+
 // Garbage collector:
 /*Allocate `size` bytes of memory and add it to the garbage collector.
 If malloc fails, exit the program immediately.*/
@@ -110,6 +139,10 @@ the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
 /*Only meant to be used in the garbage collector. Do not use elsewhere*/
 void	free_check_null(void *ptr);
+/*Use gc_free and gc_close to clean up the linked list of `t_cmd_grp`*/
+void	gc_free_cmd_grps(t_minishell *minishell);
+/*Free the `char **` given to it using gc_free*/
+void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
 
 // utils
 /*Make a copy of a `char **` (2-dimensional array of characters).

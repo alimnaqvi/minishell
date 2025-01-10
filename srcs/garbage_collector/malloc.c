@@ -1,22 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   memory.c                                           :+:      :+:    :+:   */
+/*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 18:15:15 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/24 23:13:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/09 15:15:27 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
-
-void	free_check_null(void *ptr)
-{
-	if (ptr)
-		free(ptr);
-}
+#include "minishell.h"
 
 void	*gc_malloc(size_t size, t_minishell *minishell)
 {
@@ -53,33 +47,4 @@ void	gc_add_to_allocs(void *ptr, t_minishell *minishell)
 		gc_exit(minishell, EXIT_FAILURE);
 	}
 	ft_lstadd_front(&(minishell->garbage.allocs), alloc_node);
-}
-
-void	gc_free(void *ptr, t_minishell *minishell)
-{
-	t_list	*current;
-	t_list	*prev;
-
-	if (!ptr || !minishell)
-		return ;
-	current = minishell->garbage.allocs;
-	prev = NULL;
-	while (current)
-	{
-		if (current->content == ptr)
-		{
-			if (prev)
-				prev->next = current->next;
-			else
-				minishell->garbage.allocs = current->next;
-			ft_lstdelone(current, free_check_null);
-			if (prev)
-				current = prev->next;
-			else
-				current = minishell->garbage.allocs;
-			continue ;
-		}
-		prev = current;
-		current = current->next;
-	}
 }
