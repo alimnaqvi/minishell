@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:25:28 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:16:29 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_minishell
 	char		*input;
 	char		**mini_env;
 	char		**tokenized;
+	int			last_exit_status;
 }	t_minishell;
 
 // parser
