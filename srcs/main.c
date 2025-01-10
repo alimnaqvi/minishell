@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 13:57:45 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/10 16:57:35 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,12 @@ int	main(int argc, char **argv, char **envp)
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
-		minishell.input = readline("minishell$ ");
-		gc_add_to_allocs(minishell.input, &minishell);
+		ft_readline(&minishell);
 		if (!minishell.input)
 			break ;
 		printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
-		if (parser(&minishell) != -1)
+		if (tokenizer(&minishell) != -1 && parser(&minishell) != -1)
 			// execution
 		cleanup_before_loop(&minishell);
 	}
