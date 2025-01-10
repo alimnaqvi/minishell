@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 13:57:45 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/10 18:13:01 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 		printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
 		if (parser(&minishell) != -1)
-			// execution
+			execution(&minishell);
 		cleanup_before_loop(&minishell);
 	}
 	gc_exit(&minishell, EXIT_SUCCESS);
