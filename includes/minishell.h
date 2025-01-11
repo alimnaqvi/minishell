@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:25:28 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/11 15:53:37 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h>
@@ -85,6 +86,7 @@ typedef struct s_minishell
 	char		*input;
 	char		**mini_env;
 	char		**tokenized;
+	int			last_exit_status;
 }	t_minishell;
 
 // parser
@@ -115,6 +117,12 @@ the `PATH` and if `cmd_name` is not a builtin */
 int		find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node);
 /*Return 1 if `token` is one of the four redirection operators, 0 otherwise*/
 int		is_redir_opr(char *token);
+
+// Execution
+/*Executes the pipeline in the linked list of `minishell.cmd_grp_strt`
+Updates `minishell.last_exit_status` based on the exit status of the last
+command in the pipeline*/
+void	execution(t_minishell *minishell);
 
 // Garbage collector:
 /*Allocate `size` bytes of memory and add it to the garbage collector.

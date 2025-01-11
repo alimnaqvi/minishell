@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/10 18:13:01 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/11 14:55:35 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_minishell init_main_var(int argc, char **argv, char **envp)
 	minishell.input = NULL;
 	minishell.mini_env = copy_2d_char_arr(envp, &minishell);
 	minishell.tokenized = NULL;
+	minishell.last_exit_status = 0;
 	return (minishell);
 }
 
