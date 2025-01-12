@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/11 15:53:37 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/11 19:18:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h>
+
+extern volatile sig_atomic_t	g_signal_received;
 
 /* Holds everything that needs to be cleaned up before exiting.
 @param allocs Pointer to the start of linked list that contains

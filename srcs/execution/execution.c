@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/11 15:48:58 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/12 18:06:17 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,26 @@ static int	update_fds(t_cmd_grp *cur_node, t_minishell *minishell)
 	return (0);
 }
 
+static int	reset_signal_behavior()
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sa.sa_handler = SIG_DFL;
+	if (sigaction(SIGINT, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		return (-1);
+	}
+	if (sigaction(SIGQUIT, &sa, NULL) == -1)
+	{
+		perror("sigaction");
+		return (-1);
+	}
+	return (0);
+}
+
 static void execute_ith_cmd_grp(int i, t_minishell *minishell)
 {
 	int			cur_index;
@@ -55,7 +75,9 @@ static void execute_ith_cmd_grp(int i, t_minishell *minishell)
 	{
 		if (cur_index == i)
 		{
-			if (update_fds(cur_node, minishell) == -1)
+			if (reset_signal_behavior() == -1)
+				return (gc_exit(minishell, EXIT_FAILURE));
+			else if (update_fds(cur_node, minishell) == -1)
 				return (gc_exit(minishell, EXIT_FAILURE));
 			else if (execve(cur_node->cmd_name, cur_node->cmd_args,
 				minishell->mini_env) == -1)
