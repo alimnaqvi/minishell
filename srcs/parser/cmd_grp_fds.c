@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:31:11 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 18:30:34 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:55:17 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ static int	fork_for_heredoc(char *delimiter, t_minishell *minishell)
 		return(perror("fork failed"), -1);
 	else if (pid == 0)
 	{
+		set_signal_handler(HEREDOC);
 		fd = open("/tmp/minishell_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
@@ -112,6 +113,7 @@ static int	fork_for_heredoc(char *delimiter, t_minishell *minishell)
 	else
 	{
 		waitpid(pid, &status, 0);
+		// printf("Child exits!\n");
 		if (WIFEXITED(status))
 		{
 			minishell->last_exit_status = WEXITSTATUS(status);

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 17:16:48 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:59:57 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,15 @@ typedef enum e_cmd_type
 	BUILTIN,
 	EXTERNAL,
 }	t_cmd_type;
+
+/*Indicates the mode for signal handling*/
+typedef enum e_mode
+{
+	INTERACTIVE,
+	HEREDOC,
+	CHILD,
+	NON_INTERACTIVE,
+}	t_mode;
 
 /* Holds a command group. One command group contains the command-line
 information delimited by pipes or by start/end of the command-line.
@@ -153,6 +162,10 @@ void	free_check_null(void *ptr);
 void	gc_free_cmd_grps(t_minishell *minishell);
 /*Free the `char **` given to it using gc_free*/
 void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
+
+// signals
+/**/
+int		set_signal_handler(t_mode mode);
 
 // utils
 /*Make a copy of a `char **` (2-dimensional array of characters).

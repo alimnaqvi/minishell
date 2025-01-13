@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 18:40:19 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/13 19:53:56 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,43 +37,15 @@ static void	cleanup_before_loop(t_minishell *minishell)
 	gc_free(minishell->input, minishell);
 }
 
-static void	signal_handler(int signum)
-{
-	g_signal_received = signum;
-	if (signum == SIGINT)
-	{
-		write(STDOUT_FILENO, "\n", 1);
-		rl_replace_line("", 0);
-		rl_on_new_line();
-		rl_redisplay();
-		rl_done = 1;
-	}
-	else if (signum == SIGQUIT)
-		g_signal_received = SIGQUIT;
-}
-
-static void	set_signal_handler()
-{
-	struct sigaction	sa;
-
-	g_signal_received = 0;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_RESTART;
-	sa.sa_handler = signal_handler;
-	if (sigaction(SIGINT, &sa, NULL) == -1)
-		perror("sigaction");
-	if (sigaction(SIGQUIT, &sa, NULL) == -1)
-		perror("sigaction");
-}
-
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
-	
+
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		set_signal_handler();
+		g_signal_received = 0;
+		set_signal_handler(INTERACTIVE);
 		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
 		minishell.input = readline("minishell$ ");
 		add_history(minishell.input);
@@ -91,6 +63,7 @@ int	main(int argc, char **argv, char **envp)
                gc_add_to_allocs(minishell.tokenized, &minishell);
 		// printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
+		set_signal_handler(NON_INTERACTIVE);
 		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);
 		cleanup_before_loop(&minishell);
