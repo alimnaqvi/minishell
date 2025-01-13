@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/10 17:54:17 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/13 17:01:42 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,5 +150,11 @@ If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
 
 void	ft_readline(t_minishell *minishell);
+
+// Tokenizer stuff
+int		tokenizer(t_minishell *minishell);
+
+// Tokenizer debug things
+void	print_tokenized(char **tokenized);
 
 #endif

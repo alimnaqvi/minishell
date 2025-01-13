@@ -10,6 +10,8 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		parser/cmd_path.c\
 		utils/utils.c \
 		utils/ft_readline.c \
+		tokenizer/tokenizer.c \
+		debug/print_tokenized.c \
 		) # to be updated
 
 OBJS_DIR = objs
