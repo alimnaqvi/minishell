@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:19:40 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/13 15:42:24 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ int	is_redir_opr(char *token)
 static int	init_update_cmd_grp(t_minishell *minishell, int i,
 t_cmd_grp *cmd_grp_node, char **tokens)
 {
-	while (tokens[i])
+	while (tokens[i] && g_signal_received != SIGINT)
 	{
 		cmd_grp_node = init_cmd_grp_node(minishell);
-		while (tokens[i]
+		while (tokens[i] && g_signal_received != SIGINT
 			&& ft_strncmp(minishell->tokenized[i], "|", 2))
 		{
 			if (is_redir_opr(tokens[i]))

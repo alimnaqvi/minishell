@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/12 18:38:38 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/13 18:40:19 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,13 @@ static void	signal_handler(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		rl_done = 1;
 	}
 	else if (signum == SIGQUIT)
 		g_signal_received = SIGQUIT;
 }
 
-static void	set_up_signals()
+static void	set_signal_handler()
 {
 	struct sigaction	sa;
 
@@ -72,15 +73,25 @@ int	main(int argc, char **argv, char **envp)
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		set_up_signals();
+		set_signal_handler();
 		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
 		minishell.input = readline("minishell$ ");
+		add_history(minishell.input);
 		gc_add_to_allocs(minishell.input, &minishell);
 		if (!minishell.input)
 			break ;
-		printf("You typed \"%s\"!\n", minishell.input);
+		       minishell.tokenized = ft_split(minishell.input, ' ');
+              int k = 0;
+             while (minishell.tokenized[k])
+             {
+                      gc_add_to_allocs(minishell.tokenized[k], &minishell);
+                      // printf("minishell.tokenized[%i] contains: %s\n", k, minishell.tokenized[k]);
+                     k++;
+               }
+               gc_add_to_allocs(minishell.tokenized, &minishell);
+		// printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
-		if (parser(&minishell) != -1)
+		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);
 		cleanup_before_loop(&minishell);
 	}
