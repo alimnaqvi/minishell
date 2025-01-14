@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/13 17:20:16 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/14 17:05:33 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,40 @@ static char	*get_env_variable(t_minishell *minishell, char *key)
 	
 }
 
+int	is_char_env_valid(char c)
+{
+	return (ft_isalnum(c) || c == '_');
+}
+
 // Replace any variables within the passed string
 // Variables are anything that starts with the dollar sign $
 // Create a new string with the replaced variables and return it
-char	*replace_variable(t_minishell *minishell, char *str)
+char	*replace_variables(t_minishell *minishell, char *str)
 {
-	print_tokenized(minishell->mini_env);
-	printf("str: %s\n", str);
-	return (str);
+	int		index;
+	int		env_index;
+	int		allocation_length;
+	char	*output_str;
+
+	// Get the new required length for the string (together with variables replaced)
+	allocation_length = 0;
+	index = 0;
+	// 123$NAME123
+	// index = 3
+	while (str[index] != 0)
+	{
+		ft_substr
+		// The start of the env variable
+		if (str[index] == '$')
+		{
+			env_index = 0;
+			while (is_char_env_valid(str[index]))
+			{
+				
+			}
+		}
+		index++;
+	}
 }
 
 // The passed `str` must always be a valid C string, 
@@ -67,7 +93,7 @@ static void read_from_quote(int *index, t_minishell *minishell)
 	char	*new_str;
 	int		str_index;
 	char	*input;
-	// char	*variable_str;
+	char	*replaced_variables;
 
 	input = minishell->input;
 	(*index)++;
@@ -83,9 +109,9 @@ static void read_from_quote(int *index, t_minishell *minishell)
 	}
 	new_str[str_index] = 0;
 	(*index) += length + 1;
-	replace_variable(minishell, new_str);
-	// gc_free(new_str, minishell);
-	add_to_tokenizer(minishell, new_str);
+	replaced_variables = replace_variables(minishell, new_str);
+	gc_free(new_str, minishell);
+	add_to_tokenizer(minishell, replaced_variables);
 }
 
 // echo "asd" > something| $USER$USER<<'asd' |

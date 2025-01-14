@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 18:15:15 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:15:27 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 15:17:51 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,18 @@ void	gc_add_to_allocs(void *ptr, t_minishell *minishell)
 		gc_exit(minishell, EXIT_FAILURE);
 	}
 	ft_lstadd_front(&(minishell->garbage.allocs), alloc_node);
+}
+
+// 1. Allocate a new memory of given size
+// 2. Copy the old stuff over to the new allocated memory
+// 3. Free the old allocated memory
+// 4. Return the new memory
+void	*gc_realloc(size_t size, void *old_alloc, t_minishell *minishell)
+{
+	void	*new_alloc;
+
+	new_alloc = gc_alloc(size, minishell);
+	ft_memcpy(new_alloc, old_alloc, size);
+	gc_free(old_alloc, minishell);
+	return (new_alloc);
 }

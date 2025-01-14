@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 17:01:42 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/14 15:19:01 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,11 @@ int		is_redir_opr(char *token);
 /*Allocate `size` bytes of memory and add it to the garbage collector.
 If malloc fails, exit the program immediately.*/
 void	*gc_malloc(size_t size, t_minishell *minishell);
+/* 
+	Free the old memory and allocate new memory of the size
+	The new memory will still contain all the stuff that the old memory did
+*/
+void	*gc_realloc(size_t size, void *old_alloc, t_minishell *minishell);
 /* Add `ptr` to the garbage collector*/
 void	gc_add_to_allocs(void *ptr, t_minishell *minishell);
 /* Find the node that contains `ptr`, free `ptr`, and delete the node
