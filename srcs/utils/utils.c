@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:10:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/25 13:47:46 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:29:22 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,10 @@ char	**copy_2d_char_arr(char **arr, t_minishell *minishell)
 	}
 	result[i] = NULL;
 	return (result);
+}
+
+void	shell_error(const char *msg)
+{
+	write(STDERR_FILENO, "minishell: ", 11);
+	perror(msg);
 }

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 18:59:57 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 12:02:35 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h>
+# include <errno.h>
 
 extern volatile sig_atomic_t	g_signal_received;
 
@@ -171,5 +172,7 @@ int		set_signal_handler(t_mode mode);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
+/*Like `perror` but prepends "minishell: " before `perrors`'s output*/
+void	shell_error(const char *msg);
 
 #endif

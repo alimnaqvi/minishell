@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:31:11 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/14 11:00:18 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:33:55 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	handle_infile(char *infile, t_minishell *minishell)
 		return (-1);
 	}
 	if (access(infile, F_OK | R_OK) == -1)
-		perror(infile);
+		shell_error(infile);
 	fd = open(infile, O_RDONLY);
 	if (fd != -1)
 		gc_add_to_open_fds(fd, minishell);
@@ -42,14 +42,14 @@ static int	handle_outfile(char *outfile, int flag, t_minishell *minishell)
 	{
 		if (access(outfile, W_OK) == -1)
 		{
-			perror(outfile);
+			shell_error(outfile);
 			return (-1);
 		}
 	}
 	fd = open(outfile, O_WRONLY | O_CREAT | flag, 0644);
 	if (fd == -1)
 	{
-		perror(outfile);
+		shell_error(outfile);
 		return (-1);
 	}
 	gc_add_to_open_fds(fd, minishell);
@@ -89,14 +89,14 @@ static int	fork_for_heredoc(char *delimiter, t_minishell *minishell)
 
 	pid = fork();
 	if (pid == -1)
-		return(perror("fork failed"), -1);
+		return(shell_error("fork failed"), -1);
 	else if (pid == 0)
 	{
 		set_signal_handler(HEREDOC);
 		fd = open("/tmp/minishell_heredoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd == -1)
 		{
-			perror("/tmp/minishell_heredoc");
+			shell_error("/tmp/minishell_heredoc");
 			return (gc_exit(minishell, EXIT_FAILURE), -1);
 		}
 		read_from_heredoc(fd, delimiter, ft_strlen(delimiter), minishell);
@@ -106,16 +106,10 @@ static int	fork_for_heredoc(char *delimiter, t_minishell *minishell)
 	else
 	{
 		waitpid(pid, &status, 0);
-		// printf("Child exits!\n");
 		if (WIFEXITED(status))
-		{
 			minishell->last_exit_status = WEXITSTATUS(status);
-			return (0);
-		}
 		else if (WIFSIGNALED(status))
-		{
 			minishell->last_exit_status = 128 + WTERMSIG(status);
-		}
 		else
 			minishell->last_exit_status = 1;
 	}
@@ -135,7 +129,7 @@ static int	handle_heredoc(char *delimiter, t_minishell *minishell)
 	fd = open("/tmp/minishell_heredoc", O_RDONLY);
 	if (fd == -1)
 	{
-		perror("/tmp/minishell_heredoc");
+		shell_error("/tmp/minishell_heredoc");
 		return (-1);
 	}
 	unlink("/tmp/minishell_heredoc");
