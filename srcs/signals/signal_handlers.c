@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:37:56 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 19:51:52 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 16:24:53 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,29 @@ static void	signal_handler_heredoc(int signum)
 		g_signal_received = SIGQUIT;
 }
 
+// static void	signal_handler_child(int signum)
+// {
+// 	g_signal_received = signum;
+// 	if (signum == SIGINT)
+// 	{
+// 		write(STDOUT_FILENO, "\n", 1);
+// 		exit(128 + SIGINT);
+// 	}
+// 	else if (signum == SIGQUIT)
+// 	{
+// 		write(STDERR_FILENO, "Quit\n", 5);
+// 		exit(128 + SIGQUIT);
+// 	}
+// }
+
 static void	signal_handler_non_interactive(int signum)
 {
 	g_signal_received = signum;
+	printf("signal received: %i\n", signum); // for testing
 	if (signum == SIGINT)
 	{
 		g_signal_received = SIGINT;
-		// write(STDOUT_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		// rl_replace_line("", 0);
 		// rl_on_new_line();
 		// rl_redisplay();
