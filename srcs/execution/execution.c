@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 19:53:35 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/14 11:00:08 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ static int	update_fds(t_cmd_grp *cur_node, t_minishell *minishell)
 		return (-1);
 	if (cur_node->in_fd != STDIN_FILENO)
 	{
+		if (cur_node->in_fd == -1)
+			return (-1);
 		if (dup2(cur_node->in_fd, STDIN_FILENO) == -1)
 			return (perror("dup2 failed"), -1);
 		gc_close(cur_node->in_fd, minishell);
 	}
 	if (cur_node->out_fd != STDOUT_FILENO)
 	{
+		if (cur_node->out_fd == -1)
+			return (-1);
 		if (dup2(cur_node->out_fd, STDOUT_FILENO) == -1)
 			return (perror("dup2 failed"), -1);
 		gc_close(cur_node->out_fd, minishell);
