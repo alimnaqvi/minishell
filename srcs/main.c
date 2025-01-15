@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 19:53:56 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:59:39 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,6 @@ int	main(int argc, char **argv, char **envp)
 		minishell.input = readline("minishell$ ");
 		add_history(minishell.input);
 		gc_add_to_allocs(minishell.input, &minishell);
-		if (!minishell.input)
-			break ;
-		       minishell.tokenized = ft_split(minishell.input, ' ');
-              int k = 0;
-             while (minishell.tokenized[k])
-             {
-                      gc_add_to_allocs(minishell.tokenized[k], &minishell);
-                      // printf("minishell.tokenized[%i] contains: %s\n", k, minishell.tokenized[k]);
-                     k++;
-               }
-               gc_add_to_allocs(minishell.tokenized, &minishell);
 		// printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
 		set_signal_handler(NON_INTERACTIVE);

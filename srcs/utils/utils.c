@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:10:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/14 11:29:22 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:51:41 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,13 @@ void	shell_error(const char *msg)
 {
 	write(STDERR_FILENO, "minishell: ", 11);
 	perror(msg);
+}
+
+int	get_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:14:38 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:52:03 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,13 @@ the `PATH` and if `cmd_name` is not a builtin */
 int		find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node);
 /*Return 1 if `token` is one of the four redirection operators, 0 otherwise*/
 int		is_redir_opr(char *token);
+/*Create a child process that reads from heredoc until a delimiter is
+encountered, an EOF or `SIGINT` is received, or an error has occured*/
+int		handle_heredoc(char *delimiter, t_minishell *minishell);
 
 // Execution
-/*Executes the pipeline in the linked list of `minishell.cmd_grp_strt`
-Updates `minishell.last_exit_status` based on the exit status of the last
+/*Execute the pipeline in the linked list of `minishell.cmd_grp_strt`
+Update `minishell.last_exit_status` based on the exit status of the last
 command in the pipeline*/
 void	execution(t_minishell *minishell);
 /*Traverse the command group list (`minishell.cmd_grp_strt`) and execute
@@ -179,5 +182,8 @@ If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
 /*Like `perror` but prepends "minishell: " before `perrors`'s output*/
 void	shell_error(const char *msg);
+/*Extract exit status using bitwise operations on `status` set by `waitpid`.
+If the exit status could not be extracted, 1 is returned.*/
+int		get_exit_status(int status);
 
 #endif

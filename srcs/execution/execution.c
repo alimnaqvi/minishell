@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:09:03 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:51:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,7 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 	return (count_cmd_grps);
 }
 
-static int	get_last_exit_status(int last_status)
-{
-	if (WIFEXITED(last_status))
-		return (WEXITSTATUS(last_status));
-	else if (WIFSIGNALED(last_status))
-		return (128 + WTERMSIG(last_status));
-	return (1);
-}
-
-/*Wait for child processes and update `minishell.last_exit_status`*/
+/*Wait for child processes and update `minishell.last_exit_status`.*/
 static void	wait_children(pid_t *pids, int count_cmd_grps,
 t_minishell *minishell)
 {
@@ -73,7 +64,7 @@ t_minishell *minishell)
 		return ;
 	}
 	last_status = statuses[last_valid_index];
-	minishell->last_exit_status = get_last_exit_status(last_status);
+	minishell->last_exit_status = get_exit_status(last_status);
 	printf("last_exit_status: %i\n", minishell->last_exit_status); // for testing
 }
 
