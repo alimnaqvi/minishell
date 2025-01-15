@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/14 12:02:35 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/15 17:14:38 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,10 @@ int		is_redir_opr(char *token);
 Updates `minishell.last_exit_status` based on the exit status of the last
 command in the pipeline*/
 void	execution(t_minishell *minishell);
+/*Traverse the command group list (`minishell.cmd_grp_strt`) and execute
+the command group indicated by the index `i`. After execution, exit the child
+with `exit` and the appropriate exit status*/
+void	execute_ith_cmd_grp(int i, t_minishell *minishell);
 
 // Garbage collector:
 /*Allocate `size` bytes of memory and add it to the garbage collector.
@@ -165,7 +169,8 @@ void	gc_free_cmd_grps(t_minishell *minishell);
 void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
 
 // signals
-/**/
+/*Depending on the mode given, set up the appropriate signal handling function
+that will be executed when `SIGINT` or `SIGQUIT` is received*/
 int		set_signal_handler(t_mode mode);
 
 // utils

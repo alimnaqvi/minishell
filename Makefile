@@ -8,7 +8,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		garbage_collector/fds.c \
 		parser/parser.c parser/cmd_grp_fds.c parser/cmd_grp_cmds.c \
 		parser/cmd_path.c \
-		execution/execution.c \
+		execution/execution.c execution/children.c \
 		signals/signal_handlers.c \
 		utils/utils.c \
 		) # to be updated
