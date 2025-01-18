@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/14 17:05:33 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/18 14:54:38 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,38 @@ int	is_char_env_valid(char c)
 char	*replace_variables(t_minishell *minishell, char *str)
 {
 	int		index;
-	int		env_index;
+	int		env_length;
 	int		allocation_length;
-	char	*output_str;
+	char	*output_string;
+	char	*env_string;
 
 	// Get the new required length for the string (together with variables replaced)
 	allocation_length = 0;
 	index = 0;
-	// 123$NAME123
+	// 123$NAME$123
 	// index = 3
+	/*
+		Variable ends when there is anything other than an alphanumeric character or '_'
+
+	*/
+	// Loop through the entire string
 	while (str[index] != 0)
 	{
-		ft_substr
-		// The start of the env variable
+		// We found the start of an environment variable!
 		if (str[index] == '$')
 		{
-			env_index = 0;
-			while (is_char_env_valid(str[index]))
-			{
-				
+			// Let's find the length of that environment variable! 
+			env_length = 0;
+			while (is_char_env_valid(str[index + 1 + env_length])) {
+				env_length++;
 			}
+			// So here env_index will be 4
+			// And index will be 3
+			env_string = ft_substr(str, index + 1, env_length);
+
+			// And now that we have the env string, we can essentially find it and get the value for it
 		}
+
 		index++;
 	}
 }
@@ -96,10 +107,13 @@ static void read_from_quote(int *index, t_minishell *minishell)
 	char	*replaced_variables;
 
 	input = minishell->input;
+	// We increase the index to make sure we start from the next character instead of the first '"'
 	(*index)++;
+	// Here we simply count all the characters we have until either the end of the string, or the end of the quote
 	length = 0;
 	while (input[(*index) + length] != 0 && input[(*index) + length] != '"')
 		length++;
+	// Here we create a new string and we copy the characters over into it from input
 	new_str = gc_malloc(sizeof(char) * (length + 1), minishell);
 	str_index = 0;
 	while (str_index < length)
@@ -107,8 +121,19 @@ static void read_from_quote(int *index, t_minishell *minishell)
 		new_str[str_index] = input[str_index + (*index)];
 		str_index++;
 	}
+	// Don't forget the null terminator
 	new_str[str_index] = 0;
-	(*index) += length + 1;
+	// Visualization:
+	/*
+		-> this "is a" string!
+		the first " is at index 5
+		the length will be found as 4
+		we malloc for 4 + 1 = 5 (for the null terminator as well)
+		then we set all characters for the new string from input
+
+	*/
+	(*index) += length;
+	// Oh yeah we also need to replace the variables that exist in the string we got
 	replaced_variables = replace_variables(minishell, new_str);
 	gc_free(new_str, minishell);
 	add_to_tokenizer(minishell, replaced_variables);
@@ -156,7 +181,7 @@ int tokenizer(t_minishell *minishell)
 			continue;
 		}
 		else if (minishell->input[index] == ' ')
-		// If it has reache the space, it needs to know
+		// If it has reach the space, it needs to know
 		// Whether or not the quote is in progress
 		// To know if we should inlude the space
 
