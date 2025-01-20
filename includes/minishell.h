@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/14 15:19:01 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/20 17:03:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ typedef struct s_minishell
 }	t_minishell;
 
 // parser
-/*- Take the `char **` from lexer and form “groups” of commands,
+/*- Take the `char **` from lexer and form "groups" of commands,
 separated by pipes (`|`), and save them as a linked list of t_cmd_grp.
 - Create pipes with `pipe` function
 - If command as given is not executable, search the `PATH` to look for
@@ -158,6 +158,9 @@ void	ft_readline(t_minishell *minishell);
 
 // Tokenizer stuff
 int		tokenizer(t_minishell *minishell);
+void	read_from_quote(int *index, t_minishell *minishell);
+int		read_single_word(int index, t_minishell *minishell);
+void	add_to_tokenizer(t_minishell *minishell, char *str);
 
 // Tokenizer debug things
 void	print_tokenized(char **tokenized);

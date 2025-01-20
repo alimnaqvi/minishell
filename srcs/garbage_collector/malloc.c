@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 18:15:15 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/14 15:17:51 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/20 16:28:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	*gc_realloc(size_t size, void *old_alloc, t_minishell *minishell)
 {
 	void	*new_alloc;
 
-	new_alloc = gc_alloc(size, minishell);
+	new_alloc = gc_malloc(size, minishell);
 	ft_memcpy(new_alloc, old_alloc, size);
 	gc_free(old_alloc, minishell);
 	return (new_alloc);
