@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/20 18:01:43 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/21 20:36:56 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,15 @@ int	ft_isspace(char c)
 // 2. 
 int tokenizer(t_minishell *minishell)
 {
-	int index;
-	int read_length;
+	size_t			index;
+	t_returned_word	returned_word;
+	t_vec			tokenizer_result;
 
 	if (!minishell)
 		return (-1);
+	tokenizer_result = vec_init(sizeof(char *));
 	index = 0;
-	while (index < 10)
-	{
-		printf("Index: %d, char: %c\n", index, minishell->input[index]);
-		index++;
-	}
-	index = 0;
-	while (minishell->input[index] != 0)
+	while (minishell->input[index])
 	{
 		// 1. Skip all whitespaces that are outside of quotes
 		if (ft_isspace(minishell->input[index]))
@@ -48,18 +44,26 @@ int tokenizer(t_minishell *minishell)
 		//! And then it would simply know that it will stop the reading once it has reached the next quote
 		else if (minishell->input[index] == '"')
 		{
-			read_from_quote(&index, minishell);
-			index++;
-			continue;
+			returned_word = read_from_quote(index, minishell);
+			if (returned_word.word == NULL)
+				break;
+			printf(": Word in quotes: %s\n", returned_word.word);
+			printf("Length of word: %zu\n", returned_word.length);
+			vec_push(minishell, &tokenizer_result, returned_word.word);
+			index += returned_word.length;
 		}
 		// Essentially if it is anything else, simply treat it as a single word
 		else
 		{
-			read_length = read_single_word(index, minishell);
-			index += read_length;
+			returned_word = read_single_word(index, minishell);
+			if (returned_word.word == NULL)
+				break;
+			printf(": Word without quotes: %s\n", returned_word.word);
+			vec_push(minishell, &tokenizer_result, returned_word.word);
+			index += returned_word.length;
 		}
 	}
-	print_tokenized(minishell->tokenized);
+	vec_print_as_strings(&tokenizer_result);
 
 	return (1);
 }

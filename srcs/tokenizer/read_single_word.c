@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:39:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/20 17:05:54 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:18:04 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 // ...for the word
 // Those characters could be: ' ', '\t', '\0'
 //! There will also be the $ thingy with the environment variables, but we can handle this later
-int	count_word_length(int index, char *input)
+static size_t	count_word_length(size_t index, char *input)
 {
 	int	start_index;
 
@@ -30,10 +30,16 @@ int	count_word_length(int index, char *input)
 // Essentially in this function we keep on reading something as a word, until we reach one of the specified characters
 // This function will return the length of the word that it found
 // asdasd -> 5
-int	read_single_word(int index, t_minishell *minishell)
+t_returned_word	read_single_word(size_t index, t_minishell *minishell)
 {
-	int	word_length;
+	t_returned_word	returned_word;
 
-	word_length = count_word_length(index, minishell->input);
-	return (word_length);
+	returned_word.length = count_word_length(index, minishell->input);
+
+	returned_word.word =\
+		ft_substr(minishell->input, index, returned_word.length);
+	if (returned_word.word != NULL)
+		gc_add_to_allocs(returned_word.word, minishell);
+
+	return (returned_word);
 }

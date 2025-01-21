@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/10 16:57:35 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/21 18:43:47 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,34 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 	
+	// char char_0 = 's';
+	// char char_1 = 't';
+	// char char_2 = 'a';
+	// char char_3 = 'r';
+	// char char_4 = 't';
+
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
 		ft_readline(&minishell);
 		if (!minishell.input)
 			break ;
-		printf("You typed \"%s\"!\n", minishell.input);
+		// printf("You typed \"%s\"!\n", minishell.input);
+
+		// t_vec vector = vec_init(sizeof(char));
+		// vec_push(&minishell, &vector, &char_0);
+		// vec_push(&minishell, &vector, &char_1);
+		// vec_push(&minishell, &vector, &char_2);
+		// vec_push(&minishell, &vector, &char_3);
+		// vec_push(&minishell, &vector, &char_4);
+		// for (size_t i = 0; i < vector.length; i++)
+		// {
+		// 	char *character = vec_get(&vector, i);
+		// 	printf("Vec: %s\n", character);
+		// }
+
+		// gc_exit(&minishell, EXIT_SUCCESS);
+
 		/*lexer here*/
 		if (tokenizer(&minishell) != -1 && parser(&minishell) != -1)
 			// execution

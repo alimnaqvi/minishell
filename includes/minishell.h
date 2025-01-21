@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/20 17:03:36 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/21 21:40:59 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ typedef struct s_minishell
 	char		**tokenized;
 }	t_minishell;
 
+// asdasd< "something in put" 123
+// "asdasd", "<", "something in put", "123"
+
 // parser
 /*- Take the `char **` from lexer and form "groups" of commands,
 separated by pipes (`|`), and save them as a linked list of t_cmd_grp.
@@ -157,12 +160,35 @@ char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
 void	ft_readline(t_minishell *minishell);
 
 // Tokenizer stuff
-int		tokenizer(t_minishell *minishell);
-void	read_from_quote(int *index, t_minishell *minishell);
-int		read_single_word(int index, t_minishell *minishell);
-void	add_to_tokenizer(t_minishell *minishell, char *str);
+typedef struct s_returned_word
+{
+	size_t	length;
+	char	*word;
+}	t_returned_word;
+
+int				tokenizer(t_minishell *minishell);
+t_returned_word	read_from_quote(size_t index, t_minishell *minishell);
+t_returned_word	read_single_word(size_t index, t_minishell *minishell);
+void			add_to_tokenizer(t_minishell *minishell, char *str);
 
 // Tokenizer debug things
-void	print_tokenized(char **tokenized);
+void			print_tokenized(char **tokenized);
+
+// Vector stuff
+// The idea of this type is that you can just use convenient functions on it
+// Without having to worry about any size checking
+// Everything will be automatic
+typedef struct s_vec
+{
+	size_t	element_size;
+	size_t	length;
+	void	*elements; // I THINK this is how it should be
+}	t_vec;
+
+t_vec	vec_init(size_t element_size);
+void	vec_increase_size(t_minishell *minishell, t_vec *vec);
+void	vec_push(t_minishell *minishell, t_vec *vec, void *element);
+void	*vec_get(t_vec *vec, size_t index);
+void	vec_print_as_strings(t_vec *vec);
 
 #endif

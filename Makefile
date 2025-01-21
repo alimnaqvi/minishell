@@ -9,6 +9,8 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		parser/parser.c parser/cmd_grp_fds.c parser/cmd_grp_cmds.c \
 		parser/cmd_path.c\
 		utils/utils.c \
+		utils/vector/vector.c \
+		utils/vector/print.c \
 		utils/ft_readline.c \
 		debug/print_tokenized.c \
 		tokenizer/add_to_tokenizer.c \
