@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 16:17:16 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 19:31:40 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ static int	has_unsupported_operator(char *cmd_name)
 {
 	if (!cmd_name)
 		return (1);
-	if (ft_strncmp(cmd_name, "&&", 3) || ft_strncmp(cmd_name, "||", 3)
-		|| ft_strncmp(cmd_name, "\n", 2))
-		return (1);
+	if (!ft_strncmp(cmd_name, "&&", 3) || !ft_strncmp(cmd_name, "||", 3)
+		|| !ft_strncmp(cmd_name, "\n", 2))
+		return (printf("returning at 21\n"), 1);
 	if (ft_strnstr(cmd_name, "&&", 2) || ft_strnstr(cmd_name, "||", 2)
 		|| ft_strnstr(cmd_name, "\n", 1))
 		return (1);
