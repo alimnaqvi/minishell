@@ -6,13 +6,13 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 20:26:16 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:15:22 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:31:39 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ft_close(void *ptr)
+void	ft_close(void *ptr)
 {
 	if (ptr)
 		close((int)(intptr_t)(ptr));
@@ -85,9 +85,9 @@ void	gc_close(int fd, t_minishell *minishell)
 	}
 }
 
-void	gc_exit(t_minishell *minishell, int exit_status)
+void gc_close_all_open_fds(t_minishell *minishell)
 {
-	ft_lstclear(&(minishell->garbage.allocs), free_check_null);
+	if (!minishell || !(minishell->garbage.open_fds))
+		return ;
 	ft_lstclear(&(minishell->garbage.open_fds), ft_close);
-	exit(exit_status);
 }

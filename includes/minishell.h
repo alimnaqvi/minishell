@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:52:03 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:31:30 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,10 @@ the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
 /*Only meant to be used in the garbage collector. Do not use elsewhere*/
 void	free_check_null(void *ptr);
+/*Only meant to be used in the garbage collector. Do not use elsewhere*/
+void	ft_close(void *ptr);
+/*Close all fds in the garbage collector*/
+void	gc_close_all_open_fds(t_minishell *minishell);
 /*Use gc_free and gc_close to clean up the linked list of `t_cmd_grp`*/
 void	gc_free_cmd_grps(t_minishell *minishell);
 /*Free the `char **` given to it using gc_free*/

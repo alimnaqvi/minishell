@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 19:48:17 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:54:24 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static void	cleanup_before_loop(t_minishell *minishell)
 	minishell->tokenized = NULL;
 	gc_free_cmd_grps(minishell);
 	gc_free(minishell->input, minishell);
+	gc_close_all_open_fds(minishell);
 }
 
 int	main(int argc, char **argv, char **envp)

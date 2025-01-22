@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:13:29 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:32:35 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static int	update_fds(t_cmd_grp *cur_node, t_minishell *minishell)
 			return (shell_error("dup2 failed"), -1);
 		gc_close(cur_node->out_fd, minishell);
 	}
+	gc_close_all_open_fds(minishell);
 	return (0);
 }
 

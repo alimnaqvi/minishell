@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 19:11:50 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:44:59 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,6 @@ void	execution(t_minishell *minishell)
 		}
 		i++;
 	}
+	ft_lstclear(&(minishell->garbage.open_fds), ft_close);
 	wait_children(pids, count_cmd_grps, minishell);
 }
