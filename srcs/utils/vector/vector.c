@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 15:12:33 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/21 21:47:58 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/22 19:34:14 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	vec_increase_size(t_minishell *minishell, t_vec *vec)
 	old_length = vec->length;
 	vec->length += 1;
 	// Allocate for the new size
-	new_array = gc_malloc(vec->length * (vec->element_size), minishell);
+	new_array = gc_malloc(vec->length * vec->element_size, minishell);
 	if (vec->length > 1)
 	{
 		ft_memcpy(new_array, vec->elements, old_length * vec->element_size);
@@ -66,27 +66,22 @@ void	vec_increase_size(t_minishell *minishell, t_vec *vec)
 }
 
 // Push an element to the env of the vector
-void	vec_push(t_minishell *minishell, t_vec *vec, void *element)
+void	vec_push_ref(t_minishell *minishell, t_vec *vec, void *element)
 {
 	void	*new_element_ref;
 
 	vec_increase_size(minishell, vec);
+	new_element_ref = vec->elements + ((vec->length - 1) * vec->element_size);
+	ft_memcpy(new_element_ref, &element, vec->element_size);
+}
 
-	// Calculate the reference for the new element
-	// "kjahs " + "g"
-	// Here, we have capacity increased to 6
-	// Therefore the length is now updated to 6 as well
-	// But we still have 5 elements
-	// And we need to set the new element to the last position
-	// 6 - 1 = 5
-	// 
+void	vec_push_copy(t_minishell *minishell, t_vec *vec, void *element)
+{
+	void	*new_element_ref;
 
+	vec_increase_size(minishell, vec);
 	new_element_ref = vec->elements + ((vec->length - 1) * vec->element_size);
 	ft_memcpy(new_element_ref, element, vec->element_size);
-	// new_element_ref = element;
-	
-	char *first = vec_get(vec, 0);
-	printf("First element: %s\n", first);
 }
 
 void	*vec_get(t_vec *vec, size_t index)

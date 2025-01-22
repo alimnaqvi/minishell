@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/21 18:43:47 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/22 15:38:43 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		// printf("You typed \"%s\"!\n", minishell.input);
 
-		// t_vec vector = vec_init(sizeof(char));
+		// t_vec vector = vec_init(sizeof(char *));
 		// vec_push(&minishell, &vector, &char_0);
 		// vec_push(&minishell, &vector, &char_1);
 		// vec_push(&minishell, &vector, &char_2);
@@ -60,8 +60,8 @@ int	main(int argc, char **argv, char **envp)
 		// vec_push(&minishell, &vector, &char_4);
 		// for (size_t i = 0; i < vector.length; i++)
 		// {
-		// 	char *character = vec_get(&vector, i);
-		// 	printf("Vec: %s\n", character);
+		// 	char character = **(char **)vec_get(&vector, i);
+		// 	printf("Vec: %c\n", character);
 		// }
 
 		// gc_exit(&minishell, EXIT_SUCCESS);

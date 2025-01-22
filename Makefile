@@ -14,9 +14,13 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		utils/ft_readline.c \
 		debug/print_tokenized.c \
 		tokenizer/add_to_tokenizer.c \
-		tokenizer/read_from_quote.c \
-		tokenizer/read_single_word.c \
+		tokenizer/get_next_token.c \
+		tokenizer/read_from_operator.c \
+		tokenizer/tokenize_quote.c \
+		tokenizer/tokenize_space.c \
+		tokenizer/tokenize_word.c \
 		tokenizer/tokenizer.c \
+		tokenizer/utils.c \
 		) # to be updated
 
 OBJS_DIR = objs

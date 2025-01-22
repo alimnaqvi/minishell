@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/21 21:40:59 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/22 21:27:46 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,25 +156,43 @@ void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
-
 void	ft_readline(t_minishell *minishell);
 
-// Tokenizer stuff
-typedef struct s_returned_word
+// TOKENIZER STUFF
+typedef enum e_token_type
 {
-	size_t	length;
-	char	*word;
-}	t_returned_word;
+	TOKEN_WORD,
+	TOKEN_OPERATOR,
+	TOKEN_SPACE,
+}	t_token_type;
+
+typedef struct s_token
+{
+	char			*string;
+	size_t			read_length;
+	size_t			parsed_length;
+	t_token_type	type;
+}	t_token;
+
+t_token	token_init();
 
 int				tokenizer(t_minishell *minishell);
-t_returned_word	read_from_quote(size_t index, t_minishell *minishell);
-t_returned_word	read_single_word(size_t index, t_minishell *minishell);
-void			add_to_tokenizer(t_minishell *minishell, char *str);
+t_token			get_next_token(t_minishell *minishell, size_t index);
+t_token			tokenize_space(t_minishell *minishell, size_t index);
+t_token			tokenize_quote(t_minishell *minishell,\
+			size_t index, char quote);
+t_token			tokenize_word(t_minishell *minishell, size_t index);
+
+// TOKENIZER UTILS
+// Return 1 in case the character is a space character
+// ...defined in the `man isspace`
+int		ft_isspace(char c);
+int		ft_isquote(char c);
 
 // Tokenizer debug things
 void			print_tokenized(char **tokenized);
 
-// Vector stuff
+// VECTOR STUFF
 // The idea of this type is that you can just use convenient functions on it
 // Without having to worry about any size checking
 // Everything will be automatic
@@ -187,8 +205,10 @@ typedef struct s_vec
 
 t_vec	vec_init(size_t element_size);
 void	vec_increase_size(t_minishell *minishell, t_vec *vec);
-void	vec_push(t_minishell *minishell, t_vec *vec, void *element);
+void	vec_push_copy(t_minishell *minishell, t_vec *vec, void *element);
+void	vec_push_ref(t_minishell *minishell, t_vec *vec, void *element);
 void	*vec_get(t_vec *vec, size_t index);
 void	vec_print_as_strings(t_vec *vec);
+void	vec_print_as_tokens(t_vec *vec);
 
 #endif
