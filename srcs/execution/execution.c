@@ -6,11 +6,24 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 15:10:12 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 16:17:16 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	has_unsupported_operator(char *cmd_name)
+{
+	if (!cmd_name)
+		return (1);
+	if (ft_strncmp(cmd_name, "&&", 3) || ft_strncmp(cmd_name, "||", 3)
+		|| ft_strncmp(cmd_name, "\n", 2))
+		return (1);
+	if (ft_strnstr(cmd_name, "&&", 2) || ft_strnstr(cmd_name, "||", 2)
+		|| ft_strnstr(cmd_name, "\n", 1))
+		return (1);
+	return (0);
+}
 
 static int	validate_count_cmd_grps(t_minishell *minishell)
 {
@@ -23,13 +36,14 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 	cur_node = minishell->cmd_grp_strt;
 	while (cur_node)
 	{
-		if (!(cur_node->cmd_name))
-			return (ft_putendl_fd("minishell: syntax error", 2),
-					minishell->last_exit_status = 2, -1);
-		if (!(cur_node->cmd_args)
+		if (!(cur_node->cmd_name) || !(cur_node->cmd_args)
 			|| !(minishell->cmd_grp_strt->cmd_args[0]))
 			return (ft_putendl_fd("minishell: syntax error", 2),
-					minishell->last_exit_status = 2, -1);
+				minishell->last_exit_status = 2, -1);
+		if (has_unsupported_operator(cur_node->cmd_name))
+			return (ft_putendl_fd("minishell: &&, ||, and newlines between "
+					"commands are not supported by minishell :(", 2),
+				minishell->last_exit_status = 2, -1);
 		count_cmd_grps++;
 		cur_node = cur_node->next;
 	}

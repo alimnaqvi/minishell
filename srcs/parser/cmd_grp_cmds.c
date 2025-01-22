@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:22:48 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 16:13:03 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ static int	count_args(t_minishell *minishell, int *i)
 		&& !is_redir_opr(minishell->tokenized[*i]))
 	{
 		if (!ft_strncmp(minishell->tokenized[*i], "||", 3)
-			|| !ft_strncmp(minishell->tokenized[*i], "&&", 3))
+			|| !ft_strncmp(minishell->tokenized[*i], "&&", 3)
+			|| !ft_strncmp(minishell->tokenized[*i], "\n", 2))
 		{
-			ft_putendl_fd("&& and || are not supported by minishell :(", 2);
+			ft_putendl_fd("minishell: &&, ||, and newlines between commands "
+				"are not supported by minishell :(", 2);
 			return (-1);
 		}
 		arg_count++;
