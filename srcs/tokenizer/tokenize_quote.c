@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:32:15 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 21:05:42 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/23 14:28:12 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,28 @@ static t_count_with_quote	count_until_quote(char *input,\
 	return (return_value);
 }
 
+char	*replace_test(t_minishell *minishell, char *word)
+{
+	size_t	index;
+
+	index = 0;
+	while (word[index])
+	{
+		// If we find a dollar sign, this means that there must be a variable
+		if (word[index] == '$')
+		{
+			// Count the length of the word somehow
+		}
+		index++;
+	}
+}
+
 // Return the tokenized quote
 t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 {
 	t_token				token;
 	t_count_with_quote	count_with_quote;
+	char				*replaced;
 
 	count_with_quote = count_until_quote(minishell->input, ++index, quote);
 	token.parsed_length = count_with_quote.count;
@@ -51,6 +68,14 @@ t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 			index, count_with_quote.count);
 	if (token.string == NULL)
 		gc_exit(minishell, EXIT_FAILURE);
+	if (quote == '\'')
+	{
+		replaced = replace_test(minishell, token.string);
+		if (replaced == NULL)
+			gc_exit(minishell, EXIT_FAILURE);
+		gc_free(token.string, minishell);
+		token.string = replaced;
+	}
 	gc_add_to_allocs(token.string, minishell);
 	return (token);
 }

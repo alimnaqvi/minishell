@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:39:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 21:15:47 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/23 12:42:31 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,19 @@ static size_t	count_word_length(char *input, size_t index)
 			input[index] != '>' &&\
 			input[index] != '|' &&\
 			input[index] != '"' &&\
-			input[index] != '\'' &&\
-			input[index] != '$')
+			input[index] != '\'')
 		index++;
 	return (index - start_index);
 }
 
+//! When tokenizing a word, we must also tokenize a $HOME for example
+//! With the current system, this would not get tokenized, because...
+//! ...we end the word at the $ sign
+//! ...but what if it begins with the $ sign? Huh? ;) 
+// On a second thought... WHY would we have to end the word at $ anyways? 
+// Like sure we would end it at a space
+// But we will later on feed the entire string to the variable machine anyways
+// Let's think about this the next time! 
 t_token	tokenize_word(t_minishell *minishell, size_t index)
 {
 	t_token	token;

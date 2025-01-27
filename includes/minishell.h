@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 21:27:46 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/01/23 13:58:15 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,17 @@ t_token			tokenize_space(t_minishell *minishell, size_t index);
 t_token			tokenize_quote(t_minishell *minishell,\
 			size_t index, char quote);
 t_token			tokenize_word(t_minishell *minishell, size_t index);
+t_token			tokenize_operator(t_minishell *minishell, size_t index);
+
+char			*replace_environment_variables(t_minishell *minishell,\
+			char *input);
 
 // TOKENIZER UTILS
 // Return 1 in case the character is a space character
 // ...defined in the `man isspace`
-int		ft_isspace(char c);
-int		ft_isquote(char c);
+int	ft_isspace(char c);
+int	ft_isquote(char c);
+int	ft_isoperator(char c);
 
 // Tokenizer debug things
 void			print_tokenized(char **tokenized);
