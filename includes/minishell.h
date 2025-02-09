@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 11:31:30 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/09 13:26:49 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,10 @@ int		is_redir_opr(char *token);
 /*Create a child process that reads from heredoc until a delimiter is
 encountered, an EOF or `SIGINT` is received, or an error has occured*/
 int		handle_heredoc(char *delimiter, t_minishell *minishell);
+
+// builtins
+/* Similar to bash's echo but only takes the option -n*/
+void	ft_echo(char **args, t_minishell *minishell);
 
 // Execution
 /*Execute the pipeline in the linked list of `minishell.cmd_grp_strt`

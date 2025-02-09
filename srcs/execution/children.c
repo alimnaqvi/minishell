@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 11:32:35 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/09 13:30:58 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,18 +56,18 @@ static int	execve_exit_code(char *cmd_name)
 
 static void	execute_builtin(t_cmd_grp *cur_node, t_minishell *minishell)
 {
-	// if (!ft_strncmp(cur_node->cmd_name, "echo", 5))
-	// 	ft_echo(cur_node->cmd_args[1]);
+	if (!ft_strncmp(cur_node->cmd_name, "echo", 5))
+		ft_echo(cur_node->cmd_args, minishell);
 	// if (!ft_strncmp(cur_node->cmd_name, "cd", 3))
-	// 	ft_cd(cur_node->cmd_args[1]);
+	// 	ft_cd(cur_node->cmd_args, minishell);
 	// if (!ft_strncmp(cur_node->cmd_name, "pwd", 4))
-	// 	ft_pwd(cur_node->cmd_args[1]);
+	// 	ft_pwd(minishell);
 	// if (!ft_strncmp(cur_node->cmd_name, "export", 7))
-	// 	ft_export(cur_node->cmd_args[1]);
+	// 	ft_export(cur_node->cmd_args, minishell);
 	// if (!ft_strncmp(cur_node->cmd_name, "unset", 6))
-	// 	ft_unset(cur_node->cmd_args[1]);
+	// 	ft_unset(cur_node->cmd_args, minishell);
 	// if (!ft_strncmp(cur_node->cmd_name, "env", 4))
-	// 	ft_env(cur_node->cmd_args[1]);
+	// 	ft_env(minishell);
 	if (!ft_strncmp(cur_node->cmd_name, "exit", 5))
 		gc_exit(minishell, EXIT_SUCCESS);
 }
