@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 13:26:49 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/09 20:54:31 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <fcntl.h>
 # include <stdint.h>
 # include <errno.h>
+# include <limits.h>
 
 extern volatile sig_atomic_t	g_signal_received;
 
@@ -136,6 +137,28 @@ int		handle_heredoc(char *delimiter, t_minishell *minishell);
 // builtins
 /* Similar to bash's echo but only takes the option -n*/
 void	ft_echo(char **args, t_minishell *minishell);
+/*Similar to cd builtin of bash, except it only supports a relative
+or absolute path and does not support flags/options.*/
+void	ft_cd_parent(char **args, t_minishell *minishell);
+/*Similar to cd builtin of bash, except it only supports a relative
+or absolute path and does not support flags/options. Exit process after
+execution.*/
+void	ft_cd_child(char **args, t_minishell *minishell);
+/*Use `getcwd` to print the absolute pathname of the current working
+directory.*/
+void ft_pwd(t_minishell *minishell);
+/*Search the evironmental variables to look for a variable named `var_name`.
+Return the value of the variable if it is found. Otherwise return `NULL`.
+The returned `char *` can be freed with `gc_free`.*/
+char	*get_var_value(char *var_name, t_minishell *minishell);
+/*The environmental variable named `var_name` is updated or added,
+depending on whether it already exists, with value `var_val`.*/
+void	update_env_var(char *var_name, char *var_val, t_minishell *minishell);
+/*Similar to exit builtin of bash, except it does not support flags/options.*/
+void	ft_exit_parent(char **args, t_minishell *minishell);
+/*Similar to exit builtin of bash, except it does not support flags/options.
+Exits process in all cases (including error).*/
+void	ft_exit_child(char **args, t_minishell *minishell);
 
 // Execution
 /*Execute the pipeline in the linked list of `minishell.cmd_grp_strt`
@@ -185,6 +208,9 @@ that will be executed when `SIGINT` or `SIGQUIT` is received*/
 int		set_signal_handler(t_mode mode);
 
 // utils
+/*Get the size of a NULL-terminated array of strings
+(NULL is not counted)*/
+int	get_array_size(char **arr);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
@@ -193,5 +219,12 @@ void	shell_error(const char *msg);
 /*Extract exit status using bitwise operations on `status` set by `waitpid`.
 If the exit status could not be extracted, 1 is returned.*/
 int		get_exit_status(int status);
+/*ft_strjoin's memory-safe alternative that utilizes the garbage collector.*/
+char	*gc_ft_strjoin(char *s1, char* s2, t_minishell *minishell);
+/*ft_strdup's memory-safe alternative that utilizes the garbage collector.*/
+char	*gc_ft_strdup(char *s1, t_minishell *minishell);
+/*Convert `str` into its integer equivalent.
+Return 0 on success and -1 on error.*/
+int		ft_atoi_error(char *str, int *num);
 
 #endif

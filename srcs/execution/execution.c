@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 19:31:40 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/09 21:06:01 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,10 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 	}
 	if (!ft_strncmp("exit", minishell->cmd_grp_strt->cmd_name, 5)
 		&& count_cmd_grps == 1)
-		gc_exit(minishell, EXIT_SUCCESS);
+		return (ft_exit_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
+	if (!ft_strncmp("cd", minishell->cmd_grp_strt->cmd_name, 3)
+		&& count_cmd_grps == 1)
+		return (ft_cd_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
 	return (count_cmd_grps);
 }
 

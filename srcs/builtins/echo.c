@@ -1,29 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins.c                                         :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/09 12:45:31 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 13:31:51 by anaqvi           ###   ########.fr       */
+/*   Created: 2025/02/09 15:26:19 by anaqvi            #+#    #+#             */
+/*   Updated: 2025/02/09 15:26:33 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// int	count_args(char **args) // possibly not needed
-// {
-// 	int count;
-
-// 	count = 0;
-// 	while (*args)
-// 	{
-// 		count++;
-// 		args++;
-// 	}
-// 	return (count);
-// }
 
 void	ft_echo(char **args, t_minishell *minishell)
 {

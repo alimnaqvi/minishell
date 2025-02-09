@@ -8,10 +8,11 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		garbage_collector/fds.c \
 		parser/parser.c parser/cmd_grp_fds.c parser/heredoc.c \
 		parser/cmd_grp_cmds.c parser/cmd_path.c \
-		builtins/builtins.c builtins/env_builtins.c \
+		builtins/echo.c builtins/cd.c builtins/pwd.c builtins/export.c \
+		builtins/unset.c builtins/env.c builtins/exit.c \
 		execution/execution.c execution/children.c \
 		signals/signal_handlers.c \
-		utils/utils.c \
+		utils/utils.c utils/safe_libft.c \
 		) # to be updated
 
 OBJS_DIR = objs

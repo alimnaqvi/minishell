@@ -6,13 +6,13 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:10:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:51:41 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/09 19:30:41 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_array_size(char **arr)
+int	get_array_size(char **arr)
 {
 	int	len;
 
