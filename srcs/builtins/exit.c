@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:26:56 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 20:44:26 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 17:27:58 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void ft_exit_parent(char **args, t_minishell *minishell)
 	if (argc > 2)
 	{
 		minishell->last_exit_status = EXIT_FAILURE;
-		return (ft_putendl_fd("exit: too many arguments", STDERR_FILENO));
+		return (put_builtin_error("exit", "", "too many arguments"));
 	}
 	if (argc == 1)
 	{
@@ -31,7 +31,8 @@ void ft_exit_parent(char **args, t_minishell *minishell)
 		gc_exit(minishell, minishell->last_exit_status);
 	}
 	if (ft_atoi_error(args[1], &exit_status_arg) == -1)
-		return (ft_putendl_fd("exit: numeric argument required", 2));
+		return (put_builtin_error("exit", args[1],
+			"numeric argument required"));
 	printf("exit\n");
 	gc_exit(minishell, exit_status_arg);
 }
@@ -47,7 +48,7 @@ void ft_exit_child(char **args, t_minishell *minishell)
 	if (argc > 2)
 	{
 		minishell->last_exit_status = EXIT_FAILURE;
-		ft_putendl_fd("exit: too many arguments", STDERR_FILENO);
+		put_builtin_error("exit", "", "too many arguments");
 		return (gc_exit(minishell, EXIT_FAILURE));
 	}
 	if (argc == 1)
@@ -57,7 +58,7 @@ void ft_exit_child(char **args, t_minishell *minishell)
 	}
 	if (ft_atoi_error(args[1], &exit_status_arg) == -1)
 	{
-		ft_putendl_fd("exit: numeric argument required", 2);
+		put_builtin_error("exit", args[1], "numeric argument required");
 		return (gc_exit(minishell, EXIT_FAILURE));
 	}
 	printf("exit\n");

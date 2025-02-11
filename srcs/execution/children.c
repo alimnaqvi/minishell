@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 21:09:52 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:56:27 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ static int	execve_exit_code(char *cmd_name)
 {
 	if (errno == ENOENT)
 	{
-		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putstr_fd(cmd_name, STDERR_FILENO);
-		ft_putendl_fd(": command not found", STDERR_FILENO);
+		put_specific_error(cmd_name, "command not found");
 		return (127);
 	}
 	else if (errno == EACCES)
@@ -62,16 +60,17 @@ static void	execute_builtin(t_cmd_grp *cur_node, t_minishell *minishell)
 		ft_cd_child(cur_node->cmd_args, minishell);
 	if (!ft_strncmp(cur_node->cmd_name, "pwd", 4))
 		ft_pwd(minishell);
-	// if (!ft_strncmp(cur_node->cmd_name, "export", 7))
-	// 	ft_export(cur_node->cmd_args, minishell);
+	if (!ft_strncmp(cur_node->cmd_name, "export", 7))
+		ft_export_child(cur_node->cmd_args, minishell);
+	if (ft_strchr(cur_node->cmd_name, '=') && *(cur_node->cmd_name) != '=')
+		return (put_specific_error(cur_node->cmd_name, LOCAL_VAR_ERR),
+			gc_exit(minishell, 1));
 	// if (!ft_strncmp(cur_node->cmd_name, "unset", 6))
 	// 	ft_unset(cur_node->cmd_args, minishell);
-	// if (!ft_strncmp(cur_node->cmd_name, "env", 4))
-	// 	ft_env(minishell);
+	if (!ft_strncmp(cur_node->cmd_name, "env", 4))
+		ft_env(minishell);
 	if (!ft_strncmp(cur_node->cmd_name, "exit", 5))
 		ft_exit_child(cur_node->cmd_args, minishell);
-	if (!ft_strncmp(cur_node->cmd_name, "exit", 5)) // delete
-		gc_exit(minishell, EXIT_SUCCESS);
 }
 
 void	execute_ith_cmd_grp(int i, t_minishell *minishell)

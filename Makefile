@@ -12,7 +12,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		builtins/unset.c builtins/env.c builtins/exit.c \
 		execution/execution.c execution/children.c \
 		signals/signal_handlers.c \
-		utils/utils.c utils/safe_libft.c \
+		utils/utils.c utils/safe_libft.c utils/error_utils.c \
 		) # to be updated
 
 OBJS_DIR = objs

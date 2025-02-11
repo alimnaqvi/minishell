@@ -6,11 +6,25 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:39:50 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 20:04:52 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:08:50 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*gc_ft_substr(char *s, unsigned int start, size_t len,
+t_minishell *minishell)
+{
+	char	*result;
+	result = ft_substr(s, start, len);
+	if (!result)
+	{
+		ft_putendl_fd("malloc failed", STDERR_FILENO);
+		gc_exit(minishell, EXIT_FAILURE);
+	}
+	gc_add_to_allocs(result, minishell);
+	return (result);
+}
 
 char	*gc_ft_strjoin(char *s1, char* s2, t_minishell *minishell)
 {

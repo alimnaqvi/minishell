@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 20:54:31 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:11:08 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # include <limits.h>
 
 extern volatile sig_atomic_t	g_signal_received;
+
+# define CTRL_OP_ERR "control operator not supported by minishell."
+# define LOCAL_VAR_ERR "local variables are not supported by minishell."
+# define MARK_EXP_ERR "marking for export is not possible since \
+minishell does not support local variables."
 
 /* Holds everything that needs to be cleaned up before exiting.
 @param allocs Pointer to the start of linked list that contains
@@ -147,13 +152,22 @@ void	ft_cd_child(char **args, t_minishell *minishell);
 /*Use `getcwd` to print the absolute pathname of the current working
 directory.*/
 void ft_pwd(t_minishell *minishell);
+/*Similar to export builtin of bash, except it does not support flags/options
+or marking local variables for export.*/
+void ft_export_parent(char **args, t_minishell *minishell);
+/*Similar to export builtin of bash, except it does not support flags/options
+or marking local variables for export. Exit process after execution.*/
+void ft_export_child(char **args, t_minishell *minishell);
 /*Search the evironmental variables to look for a variable named `var_name`.
 Return the value of the variable if it is found. Otherwise return `NULL`.
 The returned `char *` can be freed with `gc_free`.*/
-char	*get_var_value(char *var_name, t_minishell *minishell);
-/*The environmental variable named `var_name` is updated or added,
-depending on whether it already exists, with value `var_val`.*/
+char	*get_env_var_value(char *var_name, t_minishell *minishell);
+/*The environmental variable named `var_name` is updated or added
+(depending on whether it already exists) with value `var_val`.*/
 void	update_env_var(char *var_name, char *var_val, t_minishell *minishell);
+/*Similar to env builtin of bash, except it does not support flags/options
+or arguments.*/
+void	ft_env(t_minishell *minishell);
 /*Similar to exit builtin of bash, except it does not support flags/options.*/
 void	ft_exit_parent(char **args, t_minishell *minishell);
 /*Similar to exit builtin of bash, except it does not support flags/options.
@@ -214,14 +228,38 @@ int	get_array_size(char **arr);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
+/*Write an error to `stderr` in the following format:
+"minishell: `problem`: `msg`"*/
+void	put_specific_error(char *problem, char *msg);
+/*Write an error to `stderr` in one of the following formats:
+- if `problem` is an empty string: "minishell: `builtin_name`: `msg`"
+- otherwise: "minishell: `builtin_name`: `problem`: `msg`"*/
+void	put_builtin_error(char *builtin_name, char *problem, char *msg);
 /*Like `perror` but prepends "minishell: " before `perrors`'s output*/
 void	shell_error(const char *msg);
 /*Extract exit status using bitwise operations on `status` set by `waitpid`.
 If the exit status could not be extracted, 1 is returned.*/
 int		get_exit_status(int status);
-/*ft_strjoin's memory-safe alternative that utilizes the garbage collector.*/
+/*Return a substring of `str` until the first occurance of `c` (not including
+`c`). `c` is assumed to be present in `str`. Result can be freed with `gc_free`.
+Please do not use `free` on the result.*/
+char	*substr_before_char(char *str, char c, t_minishell *minishell);
+/*Return a substring of `str` starting from the character after the first
+occurance of `c` until the end of `str`. `c` is assumed to be present in `str`.
+Result can be freed with `gc_free`. Please do not use `free` on the result.*/
+char	*substr_after_char(char *str, char c, t_minishell *minishell);
+/*ft_substr's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
+char	*gc_ft_substr(char *s, unsigned int start, size_t len,
+t_minishell *minishell);
+/*ft_strjoin's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
 char	*gc_ft_strjoin(char *s1, char* s2, t_minishell *minishell);
-/*ft_strdup's memory-safe alternative that utilizes the garbage collector.*/
+/*ft_strdup's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
 char	*gc_ft_strdup(char *s1, t_minishell *minishell);
 /*Convert `str` into its integer equivalent.
 Return 0 on success and -1 on error.*/

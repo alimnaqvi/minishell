@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 21:06:01 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 18:54:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,18 @@ static int	has_unsupported_operator(char *cmd_name)
 {
 	if (!cmd_name)
 		return (1);
-	if (!ft_strncmp(cmd_name, "&&", 3) || !ft_strncmp(cmd_name, "||", 3)
-		|| !ft_strncmp(cmd_name, "\n", 2))
-		return (printf("returning at 21\n"), 1);
-	if (ft_strnstr(cmd_name, "&&", 2) || ft_strnstr(cmd_name, "||", 2)
-		|| ft_strnstr(cmd_name, "\n", 1))
-		return (1);
+	if (!ft_strncmp(cmd_name, "&&", 3))
+		return (put_specific_error("&&", CTRL_OP_ERR), 1);
+	if (!ft_strncmp(cmd_name, "||", 3))
+		return (put_specific_error("||", CTRL_OP_ERR), 1);
+	if (!ft_strncmp(cmd_name, "\n", 2))
+		return (put_specific_error("\\n (newline)", CTRL_OP_ERR), 1);
+	if (ft_strnstr(cmd_name, "&&", 2))
+		return (put_specific_error("&&", CTRL_OP_ERR), 1);
+	if (ft_strnstr(cmd_name, "||", 2))
+		return (put_specific_error("||", CTRL_OP_ERR), 1);
+	if (ft_strnstr(cmd_name, "\n", 1))
+		return (put_specific_error("\\n (newline)", CTRL_OP_ERR), 1);
 	return (0);
 }
 
@@ -41,9 +47,7 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 			return (ft_putendl_fd("minishell: syntax error", 2),
 				minishell->last_exit_status = 2, -1);
 		if (has_unsupported_operator(cur_node->cmd_name))
-			return (ft_putendl_fd("minishell: &&, ||, and newlines between "
-					"commands are not supported by minishell :(", 2),
-				minishell->last_exit_status = 2, -1);
+			return (minishell->last_exit_status = 2, -1);
 		count_cmd_grps++;
 		cur_node = cur_node->next;
 	}
@@ -53,6 +57,9 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 	if (!ft_strncmp("cd", minishell->cmd_grp_strt->cmd_name, 3)
 		&& count_cmd_grps == 1)
 		return (ft_cd_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
+	if (!ft_strncmp("export", minishell->cmd_grp_strt->cmd_name, 7)
+		&& count_cmd_grps == 1)
+		return (ft_export_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
 	return (count_cmd_grps);
 }
 

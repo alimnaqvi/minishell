@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:13:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 19:25:41 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 17:09:59 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void ft_pwd(t_minishell *minishell)
 
 	if (!getcwd(buffer, PATH_MAX))
 	{
-		perror("pwd");
+		perror("minishell: pwd");
 		return (gc_exit(minishell, EXIT_FAILURE));
 	}
 	printf("%s\n", buffer);
