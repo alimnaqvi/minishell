@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 18:56:27 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:46:40 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static void	execute_builtin(t_cmd_grp *cur_node, t_minishell *minishell)
 	if (ft_strchr(cur_node->cmd_name, '=') && *(cur_node->cmd_name) != '=')
 		return (put_specific_error(cur_node->cmd_name, LOCAL_VAR_ERR),
 			gc_exit(minishell, 1));
-	// if (!ft_strncmp(cur_node->cmd_name, "unset", 6))
-	// 	ft_unset(cur_node->cmd_args, minishell);
+	if (!ft_strncmp(cur_node->cmd_name, "unset", 6))
+		ft_unset_child(cur_node->cmd_args, minishell);
 	if (!ft_strncmp(cur_node->cmd_name, "env", 4))
 		ft_env(minishell);
 	if (!ft_strncmp(cur_node->cmd_name, "exit", 5))

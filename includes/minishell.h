@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 19:11:08 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:33:55 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,6 +158,11 @@ void ft_export_parent(char **args, t_minishell *minishell);
 /*Similar to export builtin of bash, except it does not support flags/options
 or marking local variables for export. Exit process after execution.*/
 void ft_export_child(char **args, t_minishell *minishell);
+/*Similar to unset builtin of bash, except it does not support flags/options.
+Exit process after execution.*/
+void	ft_unset_child(char **args, t_minishell *minishell);
+/*Similar to unset builtin of bash, except it does not support flags/options.*/
+void	ft_unset_parent(char **args, t_minishell *minishell);
 /*Search the evironmental variables to look for a variable named `var_name`.
 Return the value of the variable if it is found. Otherwise return `NULL`.
 The returned `char *` can be freed with `gc_free`.*/
