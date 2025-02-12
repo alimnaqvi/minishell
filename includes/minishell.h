@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/23 13:58:15 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:14:07 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -215,5 +215,22 @@ void	vec_push_ref(t_minishell *minishell, t_vec *vec, void *element);
 void	*vec_get(t_vec *vec, size_t index);
 void	vec_print_as_strings(t_vec *vec);
 void	vec_print_as_tokens(t_vec *vec);
+
+// Environment Variables
+typedef struct s_replaced_variable
+{
+	char	*value;
+	size_t	key_len;
+}			t_replaced_variable;
+
+char				*replace_env(t_minishell *minishell, char *word);
+char				*get_env(t_minishell *minishell, char *key);
+char				*cut_front(t_minishell *minishell,
+			char *str, size_t cut_len);
+size_t				get_env_key_len(char *env);
+int					is_env_char(char c);
+size_t				count_key_len(char *str);
+t_replaced_variable	cut_variable(t_minishell *minishell, char *str);
+char				*str_add_char(t_minishell *minishell, char *str, char c);
 
 #endif

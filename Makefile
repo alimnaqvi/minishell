@@ -13,6 +13,8 @@ SRCS = $(addprefix $(SRCS_DIR)/, main.c \
 		utils/vector/print.c \
 		utils/ft_readline.c \
 		debug/print_tokenized.c \
+		tokenizer/env_var/env.c \
+		tokenizer/env_var/utils.c \
 		tokenizer/add_to_tokenizer.c \
 		tokenizer/replace_environment_variables.c \
 		tokenizer/get_next_token.c \
