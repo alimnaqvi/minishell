@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 15:22:48 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 15:53:03 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,15 @@ static int	count_args(t_minishell *minishell, int *i)
 		&& ft_strncmp(minishell->tokenized[*i], "|", 2)
 		&& !is_redir_opr(minishell->tokenized[*i]))
 	{
-		if (!ft_strncmp(minishell->tokenized[*i], "||", 3)
-			|| !ft_strncmp(minishell->tokenized[*i], "&&", 3))
-		{
-			ft_putendl_fd("&& and || are not supported by minishell :(", 2);
-			return (-1);
-		}
+		if (!ft_strncmp(minishell->tokenized[*i], "||", 3))
+			return(put_specific_error("||", CTRL_OP_ERR),
+				minishell->last_exit_status = 2, -1);
+		if (!ft_strncmp(minishell->tokenized[*i], "&&", 3))
+			return(put_specific_error("&&", CTRL_OP_ERR),
+				minishell->last_exit_status = 2, -1);
+		if (!ft_strncmp(minishell->tokenized[*i], "\n", 2))
+			return(put_specific_error("\\n (newline)", CTRL_OP_ERR),
+				minishell->last_exit_status = 2, -1);
 		arg_count++;
 		(*i)++;
 	}
@@ -67,7 +70,8 @@ static int	is_external_cmd(char *cmd_name)
 		|| !ft_strncmp(cmd_name, "export", 7)
 		|| !ft_strncmp(cmd_name, "unset", 6)
 		|| !ft_strncmp(cmd_name, "env", 4)
-		|| !ft_strncmp(cmd_name, "exit", 5))
+		|| !ft_strncmp(cmd_name, "exit", 5)
+		|| (ft_strchr(cmd_name, '=') && *cmd_name != '='))
 	{
 		return (0);
 	}

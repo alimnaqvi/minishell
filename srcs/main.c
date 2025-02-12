@@ -6,11 +6,13 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 15:38:43 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:28:52 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+volatile sig_atomic_t	g_signal_received;
 
 static t_minishell init_main_var(int argc, char **argv, char **envp)
 {
@@ -23,6 +25,7 @@ static t_minishell init_main_var(int argc, char **argv, char **envp)
 	minishell.input = NULL;
 	minishell.mini_env = copy_2d_char_arr(envp, &minishell);
 	minishell.tokenized = NULL;
+	minishell.last_exit_status = 0;
 	return (minishell);
 }
 
@@ -32,43 +35,28 @@ static void	cleanup_before_loop(t_minishell *minishell)
 	minishell->tokenized = NULL;
 	gc_free_cmd_grps(minishell);
 	gc_free(minishell->input, minishell);
+	gc_close_all_open_fds(minishell);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
-	
-	// char char_0 = 's';
-	// char char_1 = 't';
-	// char char_2 = 'a';
-	// char char_3 = 'r';
-	// char char_4 = 't';
 
+	printf("minishell's pid is %i\n", getpid()); // for testing
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
-		ft_readline(&minishell);
-		if (!minishell.input)
-			break ;
+		g_signal_received = 0;
+		set_signal_handler(INTERACTIVE);
+		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
+		minishell.input = readline("minishell$ ");
+		add_history(minishell.input);
+		gc_add_to_allocs(minishell.input, &minishell);
 		// printf("You typed \"%s\"!\n", minishell.input);
-
-		// t_vec vector = vec_init(sizeof(char *));
-		// vec_push(&minishell, &vector, &char_0);
-		// vec_push(&minishell, &vector, &char_1);
-		// vec_push(&minishell, &vector, &char_2);
-		// vec_push(&minishell, &vector, &char_3);
-		// vec_push(&minishell, &vector, &char_4);
-		// for (size_t i = 0; i < vector.length; i++)
-		// {
-		// 	char character = **(char **)vec_get(&vector, i);
-		// 	printf("Vec: %c\n", character);
-		// }
-
-		// gc_exit(&minishell, EXIT_SUCCESS);
-
 		/*lexer here*/
-		if (tokenizer(&minishell) != -1 && parser(&minishell) != -1)
-			// execution
+		set_signal_handler(NON_INTERACTIVE);
+		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
+			execution(&minishell);
 		cleanup_before_loop(&minishell);
 	}
 	gc_exit(&minishell, EXIT_SUCCESS);
