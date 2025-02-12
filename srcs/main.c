@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/12 16:28:52 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:46:07 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
-		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
-		minishell.input = readline("minishell$ ");
-		add_history(minishell.input);
-		gc_add_to_allocs(minishell.input, &minishell);
-		// printf("You typed \"%s\"!\n", minishell.input);
+		ft_readline(&minishell);
+		printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
+		if (tokenizer(&minishell) < 0)
+			gc_exit(&minishell, EXIT_FAILURE);
 		set_signal_handler(NON_INTERACTIVE);
 		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);

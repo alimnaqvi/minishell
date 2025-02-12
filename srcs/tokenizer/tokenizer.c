@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 21:28:38 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:55:30 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,9 @@ int tokenizer(t_minishell *minishell)
 		// printf("Skipping by %zu chars\n", token.read_length);
 		vec_push_copy(minishell, &tokens_vec, &token);
 	}
-	
-	// Convert the tokens into a (char **) tokenized format
-	// And also end the tokenized array with a NULL
 
-	vec_print_as_tokens(&tokens_vec);
+	tokens_to_array(minishell, &tokens_vec);
+	// vec_print_as_tokens(&tokens_vec);
 
 	// print_tokenized(minishell->tokenized);
 

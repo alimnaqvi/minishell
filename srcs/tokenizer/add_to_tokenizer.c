@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 20:27:25 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:55:26 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,23 @@ void	add_to_tokenizer(t_minishell *minishell, char *str)
 	new_tokenized[old_length++] = str;
 	new_tokenized[old_length] = NULL;
 	minishell->tokenized = new_tokenized;
+}
+
+void	tokens_to_array(t_minishell *minishell, t_vec *vec)
+{
+	size_t	index;
+	t_token	*token;
+
+	index = 0;
+	while (index < vec->length)
+	{
+		token = vec_get(vec, index);
+		if (token->type == TOKEN_SPACE)
+		{
+			index++;
+			continue ;
+		}
+		add_to_tokenizer(minishell, token->string);
+		index++;
+	}
 }

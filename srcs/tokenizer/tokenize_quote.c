@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:32:15 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/10 15:18:59 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 18:54:02 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 			index, count_with_quote.count);
 	if (token.string == NULL)
 		gc_exit(minishell, EXIT_FAILURE);
+	gc_add_to_allocs(token.string, minishell);
 	if (quote == '\'')
 	{
 		replaced = replace_env(minishell, token.string);
@@ -60,6 +61,5 @@ t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 		gc_free(token.string, minishell);
 		token.string = replaced;
 	}
-	gc_add_to_allocs(token.string, minishell);
 	return (token);
 }

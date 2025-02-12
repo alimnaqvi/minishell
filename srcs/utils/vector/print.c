@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:07 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 21:27:49 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 16:53:21 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	vec_print_as_strings(t_vec *vec)
 	}
 }
 
-const char	*token_types[] = {
+static const char	*token_types[] = {
 	[TOKEN_WORD] = "TOKEN_WORD",
 	[TOKEN_OPERATOR] = "TOKEN_OPERATOR",
 	[TOKEN_SPACE] = "TOKEN_SPACE"
