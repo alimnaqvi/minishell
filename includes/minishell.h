@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/10 18:16:29 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 20:33:55 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,19 @@
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <unistd.h>
 # include <fcntl.h>
 # include <stdint.h>
+# include <errno.h>
+# include <limits.h>
+
+extern volatile sig_atomic_t	g_signal_received;
+
+# define CTRL_OP_ERR "control operator not supported by minishell."
+# define LOCAL_VAR_ERR "local variables are not supported by minishell."
+# define MARK_EXP_ERR "marking for export is not possible since \
+minishell does not support local variables."
 
 /* Holds everything that needs to be cleaned up before exiting.
 @param allocs Pointer to the start of linked list that contains
@@ -43,6 +53,15 @@ typedef enum e_cmd_type
 	BUILTIN,
 	EXTERNAL,
 }	t_cmd_type;
+
+/*Indicates the mode for signal handling*/
+typedef enum e_mode
+{
+	INTERACTIVE,
+	HEREDOC,
+	CHILD,
+	NON_INTERACTIVE,
+}	t_mode;
 
 /* Holds a command group. One command group contains the command-line
 information delimited by pipes or by start/end of the command-line.
@@ -116,6 +135,59 @@ the `PATH` and if `cmd_name` is not a builtin */
 int		find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node);
 /*Return 1 if `token` is one of the four redirection operators, 0 otherwise*/
 int		is_redir_opr(char *token);
+/*Create a child process that reads from heredoc until a delimiter is
+encountered, an EOF or `SIGINT` is received, or an error has occured*/
+int		handle_heredoc(char *delimiter, t_minishell *minishell);
+
+// builtins
+/* Similar to bash's echo but only takes the option -n*/
+void	ft_echo(char **args, t_minishell *minishell);
+/*Similar to cd builtin of bash, except it only supports a relative
+or absolute path and does not support flags/options.*/
+void	ft_cd_parent(char **args, t_minishell *minishell);
+/*Similar to cd builtin of bash, except it only supports a relative
+or absolute path and does not support flags/options. Exit process after
+execution.*/
+void	ft_cd_child(char **args, t_minishell *minishell);
+/*Use `getcwd` to print the absolute pathname of the current working
+directory.*/
+void ft_pwd(t_minishell *minishell);
+/*Similar to export builtin of bash, except it does not support flags/options
+or marking local variables for export.*/
+void ft_export_parent(char **args, t_minishell *minishell);
+/*Similar to export builtin of bash, except it does not support flags/options
+or marking local variables for export. Exit process after execution.*/
+void ft_export_child(char **args, t_minishell *minishell);
+/*Similar to unset builtin of bash, except it does not support flags/options.
+Exit process after execution.*/
+void	ft_unset_child(char **args, t_minishell *minishell);
+/*Similar to unset builtin of bash, except it does not support flags/options.*/
+void	ft_unset_parent(char **args, t_minishell *minishell);
+/*Search the evironmental variables to look for a variable named `var_name`.
+Return the value of the variable if it is found. Otherwise return `NULL`.
+The returned `char *` can be freed with `gc_free`.*/
+char	*get_env_var_value(char *var_name, t_minishell *minishell);
+/*The environmental variable named `var_name` is updated or added
+(depending on whether it already exists) with value `var_val`.*/
+void	update_env_var(char *var_name, char *var_val, t_minishell *minishell);
+/*Similar to env builtin of bash, except it does not support flags/options
+or arguments.*/
+void	ft_env(t_minishell *minishell);
+/*Similar to exit builtin of bash, except it does not support flags/options.*/
+void	ft_exit_parent(char **args, t_minishell *minishell);
+/*Similar to exit builtin of bash, except it does not support flags/options.
+Exits process in all cases (including error).*/
+void	ft_exit_child(char **args, t_minishell *minishell);
+
+// Execution
+/*Execute the pipeline in the linked list of `minishell.cmd_grp_strt`
+Update `minishell.last_exit_status` based on the exit status of the last
+command in the pipeline*/
+void	execution(t_minishell *minishell);
+/*Traverse the command group list (`minishell.cmd_grp_strt`) and execute
+the command group indicated by the index `i`. After execution, exit the child
+with `exit` and the appropriate exit status*/
+void	execute_ith_cmd_grp(int i, t_minishell *minishell);
 
 // Garbage collector:
 /*Allocate `size` bytes of memory and add it to the garbage collector.
@@ -140,14 +212,62 @@ the provided exit code*/
 void	gc_exit(t_minishell *minishell, int exit_status);
 /*Only meant to be used in the garbage collector. Do not use elsewhere*/
 void	free_check_null(void *ptr);
+/*Only meant to be used in the garbage collector. Do not use elsewhere*/
+void	ft_close(void *ptr);
+/*Close all fds in the garbage collector*/
+void	gc_close_all_open_fds(t_minishell *minishell);
 /*Use gc_free and gc_close to clean up the linked list of `t_cmd_grp`*/
 void	gc_free_cmd_grps(t_minishell *minishell);
 /*Free the `char **` given to it using gc_free*/
 void	gc_free_2d_char_arr(char **arr, t_minishell *minishell);
 
+// signals
+/*Depending on the mode given, set up the appropriate signal handling function
+that will be executed when `SIGINT` or `SIGQUIT` is received*/
+int		set_signal_handler(t_mode mode);
+
 // utils
+/*Get the size of a NULL-terminated array of strings
+(NULL is not counted)*/
+int	get_array_size(char **arr);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char	**copy_2d_char_arr(char **arr, t_minishell *minishell);
+/*Write an error to `stderr` in the following format:
+"minishell: `problem`: `msg`"*/
+void	put_specific_error(char *problem, char *msg);
+/*Write an error to `stderr` in one of the following formats:
+- if `problem` is an empty string: "minishell: `builtin_name`: `msg`"
+- otherwise: "minishell: `builtin_name`: `problem`: `msg`"*/
+void	put_builtin_error(char *builtin_name, char *problem, char *msg);
+/*Like `perror` but prepends "minishell: " before `perrors`'s output*/
+void	shell_error(const char *msg);
+/*Extract exit status using bitwise operations on `status` set by `waitpid`.
+If the exit status could not be extracted, 1 is returned.*/
+int		get_exit_status(int status);
+/*Return a substring of `str` until the first occurance of `c` (not including
+`c`). `c` is assumed to be present in `str`. Result can be freed with `gc_free`.
+Please do not use `free` on the result.*/
+char	*substr_before_char(char *str, char c, t_minishell *minishell);
+/*Return a substring of `str` starting from the character after the first
+occurance of `c` until the end of `str`. `c` is assumed to be present in `str`.
+Result can be freed with `gc_free`. Please do not use `free` on the result.*/
+char	*substr_after_char(char *str, char c, t_minishell *minishell);
+/*ft_substr's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
+char	*gc_ft_substr(char *s, unsigned int start, size_t len,
+t_minishell *minishell);
+/*ft_strjoin's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
+char	*gc_ft_strjoin(char *s1, char* s2, t_minishell *minishell);
+/*ft_strdup's memory-safe alternative that utilizes the garbage collector.
+Checks for `malloc` failure. Result can be freed with `gc_free`. Please do not
+use `free` on the result.*/
+char	*gc_ft_strdup(char *s1, t_minishell *minishell);
+/*Convert `str` into its integer equivalent.
+Return 0 on success and -1 on error.*/
+int		ft_atoi_error(char *str, int *num);
 
 #endif

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_special.c                                     :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 12:57:47 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/09 14:11:19 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/01/22 11:29:54 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,11 @@ void	free_check_null(void *ptr)
 {
 	if (ptr)
 		free(ptr);
+}
+
+void	gc_exit(t_minishell *minishell, int exit_status)
+{
+	ft_lstclear(&(minishell->garbage.allocs), free_check_null);
+	ft_lstclear(&(minishell->garbage.open_fds), ft_close);
+	exit(exit_status);
 }

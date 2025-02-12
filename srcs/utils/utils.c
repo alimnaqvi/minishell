@@ -6,13 +6,13 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/25 12:10:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2024/12/25 13:47:46 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:01:30 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	get_array_size(char **arr)
+int	get_array_size(char **arr)
 {
 	int	len;
 
@@ -47,5 +47,42 @@ char	**copy_2d_char_arr(char **arr, t_minishell *minishell)
 		i++;
 	}
 	result[i] = NULL;
+	return (result);
+}
+
+int	get_exit_status(int status)
+{
+	if (WIFEXITED(status))
+		return (WEXITSTATUS(status));
+	else if (WIFSIGNALED(status))
+		return (128 + WTERMSIG(status));
+	return (1);
+}
+
+char	*substr_before_char(char *str, char c, t_minishell *minishell)
+{
+	size_t	len;
+	char	*result;
+
+	len = 0;
+	while (str[len] && str[len] != c)
+		len++;
+	result = gc_ft_substr(str, 0, len, minishell);
+	return (result);
+}
+
+char	*substr_after_char(char *str, char c, t_minishell *minishell)
+{
+	unsigned int	start;
+	char			*result;
+
+	start = 0;
+	while (str[start] && str[start] != c)
+		start++;
+	if (str[start])
+		start++;
+	else
+		return (gc_exit(minishell, EXIT_FAILURE), NULL);
+	result = gc_ft_substr(str, start, ft_strlen(str), minishell);
 	return (result);
 }
