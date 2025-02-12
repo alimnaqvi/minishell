@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:39:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/23 12:42:31 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 19:00:21 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ static size_t	count_word_length(char *input, size_t index)
 t_token	tokenize_word(t_minishell *minishell, size_t index)
 {
 	t_token	token;
+	char	*replaced_str;
 
 	token.read_length = count_word_length(minishell->input, index);
 	token.parsed_length = token.read_length;
@@ -48,5 +49,9 @@ t_token	tokenize_word(t_minishell *minishell, size_t index)
 	if (token.string == NULL)
 		gc_exit(minishell, EXIT_FAILURE);
 	gc_add_to_allocs(token.string, minishell);
+	// Do the replacing of the environment variables
+	replaced_str = replace_env(minishell, token.string);
+	gc_free(token.string, minishell);
+	token.string = replaced_str;
 	return (token);
 }

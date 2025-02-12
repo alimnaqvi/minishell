@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 18:55:11 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/12 20:09:12 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,14 @@ char	*replace_env(t_minishell *minishell, char *word)
 			replacement = cut_variable(minishell, &(word[index]));
 			index += replacement.key_len;
 			tmp = output_str;
-			output_str = ft_strjoin(tmp, replacement.value);
+			output_str = ft_strjoin(output_str, replacement.value);
+			if (output_str == NULL)
+				gc_exit(minishell, EXIT_FAILURE);
 			gc_add_to_allocs(output_str, minishell);
 			gc_free(tmp, minishell);
+			continue ;
 		}
-		output_str = str_add_char(minishell, output_str, word[index]);
-		index++;
+		output_str = str_add_char(minishell, output_str, word[index++]);
 	}
 	return (output_str);
 }
