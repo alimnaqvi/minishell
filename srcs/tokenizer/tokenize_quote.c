@@ -6,20 +6,14 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:32:15 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 18:54:02 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:45:32 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-typedef struct s_count_with_quote
-{
-	size_t	count;
-	int		ends_with_quote;
-}	t_count_with_quote;
-
 // Count how big the string is between the quotes
-static t_count_with_quote	count_until_quote(char *input,\
+static t_count_with_quote	count_until_quote(char *input, \
 		size_t index, char quote)
 {
 	size_t						old_index;
@@ -48,7 +42,7 @@ t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 	if (count_with_quote.ends_with_quote)
 		token.read_length++;
 	token.type = TOKEN_WORD;
-	token.string = ft_substr(minishell->input,\
+	token.string = ft_substr(minishell->input, \
 			index, count_with_quote.count);
 	if (token.string == NULL)
 		gc_exit(minishell, EXIT_FAILURE);

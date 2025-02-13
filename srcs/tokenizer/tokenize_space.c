@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 20:05:12 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/22 20:33:53 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:45:46 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ t_token	tokenize_space(t_minishell *minishell, size_t index)
 	if (token.string == NULL)
 		gc_exit(minishell, EXIT_FAILURE);
 	gc_add_to_allocs(token.string, minishell);
-	return (token); // Creating a copy of the token
+	return (token);
 }

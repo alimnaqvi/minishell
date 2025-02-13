@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 19:13:46 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:46:30 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 // Essentially just splits everything into strings
 // By the rules that we have set in the Minishell
 // 1. Skip all whitespaces that are outside of quotes
-int tokenizer(t_minishell *minishell)
+int	tokenizer(t_minishell *minishell)
 {
-	size_t			index;
-	t_vec			tokens_vec;
-	t_token			token;
+	size_t	index;
+	t_vec	tokens_vec;
+	t_token	token;
 
 	if (!minishell)
 		return (-1);
@@ -34,17 +34,15 @@ int tokenizer(t_minishell *minishell)
 		if (token.read_length == 0)
 		{
 			printf("Read length was ZERO. Oh nooo!!!\n");
-			break;
+			break ;
 		}
 		index += token.read_length;
 		// printf("Skipping by %zu chars\n", token.read_length);
 		vec_push_copy(minishell, &tokens_vec, &token);
 	}
-
 	tokens_to_array(minishell, &tokens_vec);
+	//! For debugging
 	vec_print_as_tokens(&tokens_vec);
-
 	// print_tokenized(minishell->tokenized);
-
 	return (1);
 }

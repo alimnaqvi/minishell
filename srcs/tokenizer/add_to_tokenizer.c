@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 16:55:26 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:42:13 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	initialize_tokenizer(t_minishell *minishell)
 {
 	char	*tokenizer_terminator;
-	
+
 	tokenizer_terminator = gc_malloc(sizeof(char *), minishell);
 	tokenizer_terminator = NULL;
 }
@@ -28,7 +28,8 @@ void	add_to_tokenizer(t_minishell *minishell, char *str)
 	char	**new_tokenized;
 
 	old_length = 0;
-	while (minishell->tokenized != NULL && minishell->tokenized[old_length] != NULL)
+	while (minishell->tokenized != NULL && \
+		minishell->tokenized[old_length] != NULL)
 		old_length++;
 	new_tokenized = gc_malloc(sizeof(char *) * (old_length + 2), minishell);
 	old_length = 0;

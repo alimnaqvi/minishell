@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 12:45:31 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 19:30:02 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/13 15:35:37 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	ft_cd_child(char **args, t_minishell *minishell)
 	char	*old_pwd;
 
 	if (!args || !(*args))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	argc = get_array_size(args);
 	if (argc > 2)
 		return (put_builtin_error("cd", "", "too many arguments"),

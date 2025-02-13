@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 19:19:29 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:40:51 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ t_replaced_variable	cut_variable(t_minishell *minishell, char *str)
 		replaced_variable.value = gc_malloc(sizeof(char), minishell);
 		replaced_variable.value[0] = 0;
 	}
-	// printf("%s:'%s'\n", key_str, replaced_variable.value);
 	gc_free(key_str, minishell);
 	return (replaced_variable);
 }

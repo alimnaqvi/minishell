@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/12 16:46:07 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:34:31 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_signal_received;
 
-static t_minishell init_main_var(int argc, char **argv, char **envp)
+static t_minishell	init_main_var(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 

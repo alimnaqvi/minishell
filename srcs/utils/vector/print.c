@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:07 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 16:53:21 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:38:52 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,8 @@ void	vec_print_as_strings(t_vec *vec)
 	}
 }
 
-static const char	*token_types[] = {
-	[TOKEN_WORD] = "TOKEN_WORD",
-	[TOKEN_OPERATOR] = "TOKEN_OPERATOR",
-	[TOKEN_SPACE] = "TOKEN_SPACE"
-};
+static const char	*g_token_types[] = {[TOKEN_WORD] = "TOKEN_WORD",
+[TOKEN_OPERATOR] = "TOKEN_OPERATOR", [TOKEN_SPACE] = "TOKEN_SPACE"};
 
 void	vec_print_as_tokens(t_vec *vec)
 {
@@ -46,8 +43,8 @@ void	vec_print_as_tokens(t_vec *vec)
 	while (index < vec->length)
 	{
 		token = vec_get(vec, index);
-		printf("Token %zu (%s): '%s'\n", index,\
-			token_types[token->type], token->string);
+		printf("Token %zu (%s): '%s'\n", index, g_token_types[token->type],
+			token->string);
 		index++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   safe_libft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:39:50 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 18:08:50 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/13 15:37:20 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*gc_ft_substr(char *s, unsigned int start, size_t len,
 t_minishell *minishell)
 {
 	char	*result;
+
 	result = ft_substr(s, start, len);
 	if (!result)
 	{
@@ -26,7 +27,7 @@ t_minishell *minishell)
 	return (result);
 }
 
-char	*gc_ft_strjoin(char *s1, char* s2, t_minishell *minishell)
+char	*gc_ft_strjoin(char *s1, char *s2, t_minishell *minishell)
 {
 	char	*result;
 

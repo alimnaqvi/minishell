@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:24:45 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:40:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 If we want to replace environment variables:
 1. Determine the variable we are replacing
 2. Find and get the corresponding string with that key
-3. 
+3.
 
 Let's create an empty terminated string and just start adding characters to it
 Everytime we come across a character, let's add it to the string
 And if we come across an environment variable, let's determine what
 it must be replaced with
-Then let's just get the 
+Then let's just get the
 */
 
 // Essentially counts the characters until the `=` sign
@@ -34,7 +34,7 @@ size_t	get_env_key_len(char *env)
 	while (env[len] != 0)
 	{
 		if (env[len] == '=')
-			break;
+			break ;
 		len++;
 	}
 	return (len);
@@ -59,10 +59,6 @@ char	*cut_front(t_minishell *minishell, char *str, size_t cut_len)
 	}
 	new_str[index] = 0;
 	return (new_str);
-	// "11111=2222"
-	// str_len = 10
-	// cut_len = 6
-	// alloc_len = 4 + 1
 }
 
 char	*get_env(t_minishell *minishell, char *key)
@@ -78,12 +74,12 @@ char	*get_env(t_minishell *minishell, char *key)
 		if (key_len != get_env_key_len(minishell->mini_env[index]))
 		{
 			index++;
-			continue;
+			continue ;
 		}
 		if (ft_strncmp(key, minishell->mini_env[index], key_len))
 		{
-			value = cut_front(minishell, minishell->mini_env[index],\
-					key_len + 1);
+			value = cut_front(minishell, minishell->mini_env[index], key_len
+					+ 1);
 			return (value);
 		}
 		index++;
