@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:40:51 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:10:32 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ t_replaced_variable	cut_variable(t_minishell *minishell, char *str)
 	char				*key_str;
 	t_replaced_variable	replaced_variable;
 
+	if (*str == '?')
+	{
+		replaced_variable.key_len = 1;
+		replaced_variable.value = ft_itoa(minishell->last_exit_status);
+		gc_add_to_allocs(replaced_variable.value, minishell);
+		return (replaced_variable);
+	}
 	replaced_variable.key_len = count_key_len(str);
 	key_str = ft_substr(str, 0, replaced_variable.key_len);
 	if (key_str == NULL)
