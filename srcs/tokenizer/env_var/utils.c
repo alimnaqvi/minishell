@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:40:51 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:29:04 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,19 @@ size_t	count_key_len(char *str)
 
 // Returns the variable that is found at the potition in the string
 // Finds the key and finds the variable value for that key
-// And also returns the length of the variable in teh `t_replaced_variable`
-t_replaced_variable	cut_variable(t_minishell *minishell, char *str)
+// And also returns the length of the variable in teh `t_replaced_var`
+t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 {
 	char				*key_str;
-	t_replaced_variable	replaced_variable;
+	t_replaced_var	replaced_variable;
 
+	if (*str == '?')
+	{
+		replaced_variable.key_len = 1;
+		replaced_variable.value = ft_itoa(minishell->last_exit_status);
+		gc_add_to_allocs(replaced_variable.value, minishell);
+		return (replaced_variable);
+	}
 	replaced_variable.key_len = count_key_len(str);
 	key_str = ft_substr(str, 0, replaced_variable.key_len);
 	if (key_str == NULL)
