@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 19:47:15 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/13 20:32:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ t_minishell *minishell)
 		if (pids[i] > 0)
 		{
 			waitpid(pids[i], &statuses[i], 0);
-			printf("Execution child %i exited with status %i\n", pids[i], get_exit_status(statuses[i])); // for testing
+			// printf("Execution child %i exited with status %i\n", pids[i], get_exit_status(statuses[i])); // for testing
 			last_valid_index = i;
 		}
 		i++;
@@ -95,7 +95,7 @@ t_minishell *minishell)
 	}
 	last_status = statuses[last_valid_index];
 	minishell->last_exit_status = get_exit_status(last_status);
-	printf("last_exit_status: %i\n", minishell->last_exit_status); // for testing
+	// printf("last_exit_status: %i\n", minishell->last_exit_status); // for testing
 }
 
 void	execution(t_minishell *minishell)

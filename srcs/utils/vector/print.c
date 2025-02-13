@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/21 18:21:07 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:38:52 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 17:22:27 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static char	*vec_get_string(t_vec *vec, size_t index)
 	return (*(char **)vec_get(vec, index));
 }
 
-void	vec_print_as_strings(t_vec *vec)
+void	vec_print_as_strings(t_vec *vec) // remeber to delete
 {
 	size_t	index;
 	char	*vec_element;
@@ -31,10 +31,10 @@ void	vec_print_as_strings(t_vec *vec)
 	}
 }
 
-static const char	*g_token_types[] = {[TOKEN_WORD] = "TOKEN_WORD",
+static const char	*g_token_types[] = {[TOKEN_WORD] = "TOKEN_WORD", // remeber to delete
 [TOKEN_OPERATOR] = "TOKEN_OPERATOR", [TOKEN_SPACE] = "TOKEN_SPACE"};
 
-void	vec_print_as_tokens(t_vec *vec)
+void	vec_print_as_tokens(t_vec *vec)  // remeber to delete
 {
 	size_t	index;
 	t_token	*token;

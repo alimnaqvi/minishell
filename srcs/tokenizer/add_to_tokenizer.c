@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:42:13 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 16:29:55 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_tokenizer(t_minishell *minishell)
-{
-	char	*tokenizer_terminator;
+// void	initialize_tokenizer(t_minishell *minishell)
+// {
+// 	char	*tokenizer_terminator;
 
-	tokenizer_terminator = gc_malloc(sizeof(char *), minishell);
-	tokenizer_terminator = NULL;
-}
+// 	tokenizer_terminator = gc_malloc(sizeof(char *), minishell);
+// 	tokenizer_terminator = NULL;
+// }
 
 // The passed `str` must always be a valid C string, 
 // and have at least one character

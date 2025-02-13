@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_tokenized.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 17:01:05 by rreimann          #+#    #+#             */
-/*   Updated: 2025/01/21 18:20:54 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 18:47:34 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_tokenized(char **tokenized)
+void	print_tokenized(char **tokenized) // remember to delete
 {
 	int	index;
 
