@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/12 20:09:12 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/13 15:24:45 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,7 @@ char	*replace_env(t_minishell *minishell, char *word)
 	{
 		if (word[index] == '$')
 		{
-			index++;
-			replacement = cut_variable(minishell, &(word[index]));
+			replacement = cut_variable(minishell, &(word[++index]));
 			index += replacement.key_len;
 			tmp = output_str;
 			output_str = ft_strjoin(output_str, replacement.value);
