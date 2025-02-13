@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 15:53:03 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/13 20:30:13 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static int	create_pipe(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 		while (last->next)
 			last = last->next;
 	}
-	last->out_fd = pipefd[1];
+	if (last->out_fd == STDOUT_FILENO)
+		last->out_fd = pipefd[1];
 	return (0);
 }
 
