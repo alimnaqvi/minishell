@@ -3,16 +3,43 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
 SRCS_DIR = srcs
-SRCS = $(addprefix $(SRCS_DIR)/, main.c \
-		garbage_collector/malloc.c garbage_collector/free.c \
+SRCS = $(addprefix $(SRCS_DIR)/, builtins/cd.c \
+		builtins/echo.c \
+		builtins/env.c \
+		builtins/exit.c \
+		builtins/export.c \
+		builtins/pwd.c \
+		builtins/unset.c \
+		debug/print_tokenized.c \
+		execution/children.c \
+		execution/execution.c \
 		garbage_collector/fds.c \
-		parser/parser.c parser/cmd_grp_fds.c parser/heredoc.c \
-		parser/cmd_grp_cmds.c parser/cmd_path.c \
-		builtins/echo.c builtins/cd.c builtins/pwd.c builtins/export.c \
-		builtins/unset.c builtins/env.c builtins/exit.c \
-		execution/execution.c execution/children.c \
+		garbage_collector/free.c \
+		garbage_collector/malloc.c \
+		parser/cmd_grp_cmds.c \
+		parser/cmd_grp_fds.c \
+		parser/cmd_path.c \
+		parser/heredoc.c \
+		parser/parser.c \
 		signals/signal_handlers.c \
-		utils/utils.c utils/safe_libft.c utils/error_utils.c \
+		tokenizer/env_var/env.c \
+		tokenizer/env_var/utils.c \
+		tokenizer/add_to_tokenizer.c \
+		tokenizer/get_next_token.c \
+		tokenizer/replace_environment_variables.c \
+		tokenizer/tokenize_operator.c \
+		tokenizer/tokenize_quote.c \
+		tokenizer/tokenize_space.c \
+		tokenizer/tokenize_word.c \
+		tokenizer/tokenizer.c \
+		tokenizer/utils.c \
+		utils/vector/print.c \
+		utils/vector/vector.c \
+		utils/error_utils.c \
+		utils/ft_readline.c \
+		utils/safe_libft.c \
+		utils/utils.c \
+		main.c \
 		) # to be updated
 
 OBJS_DIR = objs

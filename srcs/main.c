@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 11:54:24 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/13 15:34:31 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 volatile sig_atomic_t	g_signal_received;
 
-static t_minishell init_main_var(int argc, char **argv, char **envp)
+static t_minishell	init_main_var(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 
@@ -48,12 +48,11 @@ int	main(int argc, char **argv, char **envp)
 	{
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
-		// minishell.input = ft_readline(&minishell); /*readline, check NULL, gc_add_to_allocs, add_history*/
-		minishell.input = readline("minishell$ ");
-		add_history(minishell.input);
-		gc_add_to_allocs(minishell.input, &minishell);
-		// printf("You typed \"%s\"!\n", minishell.input);
+		ft_readline(&minishell);
+		printf("You typed \"%s\"!\n", minishell.input);
 		/*lexer here*/
+		if (tokenizer(&minishell) < 0)
+			gc_exit(&minishell, EXIT_FAILURE);
 		set_signal_handler(NON_INTERACTIVE);
 		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);
