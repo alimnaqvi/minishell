@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:26:56 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 17:27:58 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 16:09:52 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,11 @@ void ft_exit_child(char **args, t_minishell *minishell)
 		return (gc_exit(minishell, EXIT_FAILURE));
 	}
 	if (argc == 1)
-	{
-		printf("exit\n");
 		gc_exit(minishell, minishell->last_exit_status);
-	}
 	if (ft_atoi_error(args[1], &exit_status_arg) == -1)
 	{
 		put_builtin_error("exit", args[1], "numeric argument required");
 		return (gc_exit(minishell, EXIT_FAILURE));
 	}
-	printf("exit\n");
 	gc_exit(minishell, exit_status_arg);
 }
