@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 20:32:23 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:29:44 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,22 @@
 
 static int	has_unsupported_operator(char *cmd_name)
 {
+	size_t	cmd_len;
+
 	if (!cmd_name)
 		return (1);
+	cmd_len = ft_strlen(cmd_name);
 	if (!ft_strncmp(cmd_name, "&&", 3))
 		return (put_specific_error("&&", CTRL_OP_ERR), 1);
 	if (!ft_strncmp(cmd_name, "||", 3))
 		return (put_specific_error("||", CTRL_OP_ERR), 1);
 	if (!ft_strncmp(cmd_name, "\n", 2))
 		return (put_specific_error("\\n (newline)", CTRL_OP_ERR), 1);
-	if (ft_strnstr(cmd_name, "&&", 2))
+	if (ft_strnstr(cmd_name, "&&", cmd_len))
 		return (put_specific_error("&&", CTRL_OP_ERR), 1);
-	if (ft_strnstr(cmd_name, "||", 2))
+	if (ft_strnstr(cmd_name, "||", cmd_len))
 		return (put_specific_error("||", CTRL_OP_ERR), 1);
-	if (ft_strnstr(cmd_name, "\n", 1))
+	if (ft_strnstr(cmd_name, "\n", cmd_len))
 		return (put_specific_error("\\n (newline)", CTRL_OP_ERR), 1);
 	return (0);
 }
