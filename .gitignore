@@ -11,3 +11,4 @@ minishell
 *.dylib
 *.dSYM/
 test*
+minishell_tester

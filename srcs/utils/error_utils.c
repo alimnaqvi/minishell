@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:11:13 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 17:46:16 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 18:22:54 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,9 @@ void	put_builtin_error(char *builtin_name, char *problem, char *msg)
 	write(STDERR_FILENO, ": ", 2);
 	if (*problem)
 	{
+		write(STDERR_FILENO, "'", 1);
 		ft_putstr_fd(problem, STDERR_FILENO);
-		write(STDERR_FILENO, ": ", 2);
+		write(STDERR_FILENO, "': ", 3);
 	}
 	ft_putendl_fd(msg, STDERR_FILENO);
 }
