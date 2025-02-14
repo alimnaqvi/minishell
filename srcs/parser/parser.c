@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/05 13:12:05 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 16:32:35 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:55:29 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,8 @@ int	parser(t_minishell *minishell)
 	minishell->cmd_grp_strt = NULL;
 	if (!(minishell->tokenized))
 		return (-1);
-	// if (last_token_is_pipe(minishell->tokenized)) // should print error
-	// 	return (-1);
+	if (last_token_is_pipe(minishell->tokenized))
+		return (-1);
 	tokens = minishell->tokenized;
 	cmd_grp_node = NULL;
 	i = 0;

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:11:13 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 17:14:17 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:46:16 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,18 @@ void	put_builtin_error(char *builtin_name, char *problem, char *msg)
 		write(STDERR_FILENO, ": ", 2);
 	}
 	ft_putendl_fd(msg, STDERR_FILENO);
+}
+
+int	last_token_is_pipe(char **tokens)
+{
+	int	i;
+
+	if (!tokens)
+		return (1);
+	i = 0;
+	while (tokens[i])
+		i++;
+	if (i > 0 && !ft_strncmp(tokens[i - 1], "|", 2))
+		return (put_specific_error("'|'", "syntax error"), 1);
+	return (0);
 }
