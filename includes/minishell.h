@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 18:35:55 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:12:39 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ extern t_signal					g_signal_received;
 # define LOCAL_VAR_ERR "local variables are not supported by minishell."
 # define MARK_EXP_ERR "marking for export is not possible since \
 minishell does not support local variables."
+# define QUOTE_ERR "minishell: syntax error: quotes must be closed. \
+minishell does not support multiline input."
 
 /* Holds everything that needs to be cleaned up before exiting.
 @param allocs Pointer to the start of linked list that contains

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 18:01:59 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 17:11:09 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ int	main(int argc, char **argv, char **envp)
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
 		ft_readline(&minishell);
-		// printf("You typed \"%s\"!\n", minishell.input);
 		set_signal_handler(NON_INTERACTIVE);
 		if (tokenizer(&minishell) < 0)
-			gc_exit(&minishell, EXIT_FAILURE);
+		{
+			gc_free(minishell.input, &minishell);
+			continue ;
+		}
 		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);
 		cleanup_before_loop(&minishell);
