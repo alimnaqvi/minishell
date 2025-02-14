@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 20:30:13 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/14 20:45:20 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,23 @@ static int	create_pipe(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 	return (0);
 }
 
-static int	count_args(t_minishell *minishell, int *i)
+static int	count_args(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 {
 	int	arg_count;
 
 	arg_count = 0;
 	while (minishell->tokenized[*i]
-		&& ft_strncmp(minishell->tokenized[*i], "|", 2)
-		&& !is_redir_opr(minishell->tokenized[*i]))
+		&& ft_strncmp(minishell->tokenized[*i], "|", 2))
 	{
+		if (is_redir_opr(minishell->tokenized[*i]) &&
+			minishell->tokenized[*i + 1])
+		{
+			if (update_cmd_grp_fds(minishell, cmd_grp_node,
+				minishell->tokenized[*i], minishell->tokenized[*i + 1]) == -1)
+				return (-1);
+			(*i) += 2;
+			continue ;
+		}
 		if (!ft_strncmp(minishell->tokenized[*i], "||", 3))
 			return(put_specific_error("||", CTRL_OP_ERR),
 				minishell->last_exit_status = 2, -1);
@@ -83,16 +91,22 @@ static char	**copy_cmd_args(t_minishell *minishell, int arg_count,
 int cmd_start)
 {
 	char	**cmd_args;
+	int		i;
 	int		j;
 
 	cmd_args = gc_malloc(sizeof(char *) * (arg_count + 1), minishell);
+	i = cmd_start;
 	j = 0;
-	while (j < arg_count)
+	while (minishell->tokenized[i] && ft_strncmp(minishell->tokenized[i], "|", 2))
 	{
-		cmd_args[j] = ft_strdup(minishell->tokenized[cmd_start + j]);
-		if (!cmd_args[j])
-			return (gc_exit(minishell, EXIT_FAILURE), NULL);
-		gc_add_to_allocs(cmd_args[j], minishell);
+		if (is_redir_opr(minishell->tokenized[i])
+			&& minishell->tokenized[i + 1])
+		{
+			i += 2;
+			continue ;
+		}
+		cmd_args[j] = gc_ft_strdup(minishell->tokenized[i], minishell);
+		i++;
 		j++;
 	}
 	cmd_args[j] = NULL;
@@ -112,7 +126,7 @@ int	update_cmd_grp_cmds(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 		if (create_pipe(minishell, cmd_grp_node) == -1)
 			return (-1);
 	}
-	arg_count = count_args(minishell, i);
+	arg_count = count_args(minishell, i, cmd_grp_node);
 	if (arg_count == -1 || arg_count == 0)
 		return (-1);
 	if (is_external_cmd(minishell->tokenized[cmd_start]))
