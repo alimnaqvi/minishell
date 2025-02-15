@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 20:45:20 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/15 14:19:14 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	update_cmd_grp_cmds(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 	if (!i)
 		return (-1);
 	cmd_start = *i;
-	if (*i != 0 && !ft_strncmp(minishell->tokenized[(*i) - 1], "|", 2))
+	if (minishell->cmd_grp_strt)
 	{
 		if (create_pipe(minishell, cmd_grp_node) == -1)
 			return (-1);
