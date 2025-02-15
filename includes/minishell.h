@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 17:40:30 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:37:14 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 
 typedef volatile sig_atomic_t	t_signal;
 typedef struct s_cmd_grp		t_cmd_grp;
+typedef struct s_minishell		t_minishell;
+typedef void					(*t_builtin_func)(char **, t_minishell *);
 
 extern t_signal					g_signal_received;
 
@@ -102,7 +104,7 @@ important variables of the minishell program.
 received with readline function.
 @param mini_env Copy of envp. Represents the environment of minishell.
 */
-typedef struct s_minishell
+struct s_minishell
 {
 	t_cmd_grp	*cmd_grp_strt;
 	t_garbage	garbage;
@@ -110,7 +112,7 @@ typedef struct s_minishell
 	char		**mini_env;
 	char		**tokenized;
 	int			last_exit_status;
-}	t_minishell;
+};
 
 // asdasd< "something in put" 123
 // "asdasd", "<", "something in put", "123"

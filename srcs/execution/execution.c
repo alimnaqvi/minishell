@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 17:29:44 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/15 18:30:51 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,24 @@ static int	has_unsupported_operator(char *cmd_name)
 	return (0);
 }
 
+static t_builtin_func	is_process_mod_builtin(t_minishell *minishell)
+{
+	if (!ft_strncmp("exit", minishell->cmd_grp_strt->cmd_name, 5))
+		return (ft_exit_parent);
+	if (!ft_strncmp("cd", minishell->cmd_grp_strt->cmd_name, 3))
+		return (ft_cd_parent);
+	if (!ft_strncmp("export", minishell->cmd_grp_strt->cmd_name, 7))
+		return (ft_export_parent);
+	if (!ft_strncmp("unset", minishell->cmd_grp_strt->cmd_name, 6))
+		return (ft_unset_parent);
+	return (NULL);
+}
+
 static int	validate_count_cmd_grps(t_minishell *minishell)
 {
-	t_cmd_grp	*cur_node;
-	int			count_cmd_grps;
+	t_cmd_grp		*cur_node;
+	int				count_cmd_grps;
+	t_builtin_func	builtin;
 
 	if (!minishell || !(minishell->cmd_grp_strt))
 		return (-1);
@@ -54,18 +68,9 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 		count_cmd_grps++;
 		cur_node = cur_node->next;
 	}
-	if (!ft_strncmp("exit", minishell->cmd_grp_strt->cmd_name, 5)
-		&& count_cmd_grps == 1)
-		return (ft_exit_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
-	if (!ft_strncmp("cd", minishell->cmd_grp_strt->cmd_name, 3)
-		&& count_cmd_grps == 1)
-		return (ft_cd_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
-	if (!ft_strncmp("export", minishell->cmd_grp_strt->cmd_name, 7)
-		&& count_cmd_grps == 1)
-		return (ft_export_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
-	if (!ft_strncmp("unset", minishell->cmd_grp_strt->cmd_name, 6)
-		&& count_cmd_grps == 1)
-		return (ft_unset_parent(minishell->cmd_grp_strt->cmd_args, minishell), -1);
+	builtin = is_process_mod_builtin(minishell);
+	if (builtin && count_cmd_grps == 1)
+		return (builtin(minishell->cmd_grp_strt->cmd_args, minishell), -1);
 	return (count_cmd_grps);
 }
 
@@ -86,7 +91,6 @@ t_minishell *minishell)
 		if (pids[i] > 0)
 		{
 			waitpid(pids[i], &statuses[i], 0);
-			// printf("Execution child %i exited with status %i\n", pids[i], get_exit_status(statuses[i])); // for testing
 			last_valid_index = i;
 		}
 		i++;
@@ -98,7 +102,6 @@ t_minishell *minishell)
 	}
 	last_status = statuses[last_valid_index];
 	minishell->last_exit_status = get_exit_status(last_status);
-	// printf("last_exit_status: %i\n", minishell->last_exit_status); // for testing
 }
 
 void	execution(t_minishell *minishell)
