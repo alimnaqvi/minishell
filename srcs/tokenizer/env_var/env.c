@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 18:45:57 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 02:17:31 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ char	*replace_env(t_minishell *minishell, char *word)
 	size_t			index;
 	char			*output_str;
 	char			*tmp;
-	t_replaced_var	replacmnt;
+	t_replaced_var	replacement;
 
 	output_str = gc_malloc(sizeof(char), minishell);
 	output_str[0] = 0;
@@ -101,10 +101,10 @@ char	*replace_env(t_minishell *minishell, char *word)
 	{
 		if (word[index] == '$')
 		{
-			replacmnt = cut_variable(minishell, &(word[++index]));
-			index += replacmnt.key_len;
+			replacement = cut_variable(minishell, &(word[++index]));
+			index += replacement.key_len;
 			tmp = output_str;
-			output_str = gc_ft_strjoin(output_str, replacmnt.value, minishell);
+			output_str = gc_ft_strjoin(output_str, replacement.value, minishell);
 			gc_free(tmp, minishell);
 			continue ;
 		}
