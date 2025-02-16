@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 18:15:15 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/12 16:28:27 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 19:45:29 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,27 @@ void	*gc_malloc(size_t size, t_minishell *minishell)
 	return (ptr);
 }
 
+static int	is_already_in_allocs(void *ptr, t_minishell *minishell)
+{
+	t_list	*current;
+
+	current = minishell->garbage.allocs;
+	while (current)
+	{
+		if (ptr == current->content)
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
 void	gc_add_to_allocs(void *ptr, t_minishell *minishell)
 {
 	t_list	*alloc_node;
 
 	if (!ptr || !minishell)
+		return ;
+	if (is_already_in_allocs(ptr, minishell))
 		return ;
 	alloc_node = ft_lstnew(ptr);
 	if (!alloc_node)
