@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/16 16:53:23 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 19:49:40 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ int	update_cmd_grp_cmds(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 		cmd_grp_node->cmd_type = EXTERNAL;
 	else
 		cmd_grp_node->cmd_type = BUILTIN;
-	cmd_grp_node->cmd_name = ft_strdup(minishell->tokenized[cmd_start]);
+	cmd_grp_node->cmd_name = gc_ft_strdup(minishell->tokenized[cmd_start],
+			minishell);
 	cmd_grp_node->cmd_args = copy_cmd_args(minishell, arg_count, cmd_start);
 	if (!(cmd_grp_node->cmd_name) || !(cmd_grp_node->cmd_args))
 		return (-1);
-	gc_add_to_allocs(cmd_grp_node->cmd_name, minishell);
 	return (0);
 }
