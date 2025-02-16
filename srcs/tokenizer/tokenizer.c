@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/15 21:10:33 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 02:48:59 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	tokenizer(t_minishell *minishell)
 	tokens_to_array(minishell, &tokens_vec);
 	//! For debugging
 	// vec_print_as_tokens(&tokens_vec);
-	print_tokenized(minishell->tokenized);
+	// print_tokenized(minishell->tokenized);
 
 	//TODO: Also free the `tokens_vec` here
 	return (1);
