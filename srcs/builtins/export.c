@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 17:40:06 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 18:37:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:09:04 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ static int	handle_export_arg(char *arg, t_minishell *minishell)
 	return (exit_status);
 }
 
-void ft_export_child(char **args, t_minishell *minishell)
+void	ft_export_child(char **args, t_minishell *minishell)
 {
 	int		i;
 	int		exit_status;
 
 	if (!args || !(*args) || !(minishell->mini_env))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	i = 1;
 	if (!(args[i]))
 		return (display_export(minishell), gc_exit(minishell, EXIT_SUCCESS));
@@ -84,13 +84,13 @@ void ft_export_child(char **args, t_minishell *minishell)
 	gc_exit(minishell, exit_status);
 }
 
-void ft_export_parent(char **args, t_minishell *minishell)
+void	ft_export_parent(char **args, t_minishell *minishell)
 {
 	int		i;
 	int		exit_status;
 
 	if (!args || !(*args) || !(minishell->mini_env))
-		return(minishell->last_exit_status = 1, (void)0);
+		return (minishell->last_exit_status = 1, (void)0);
 	i = 1;
 	if (!(args[i]))
 		return (display_export(minishell));

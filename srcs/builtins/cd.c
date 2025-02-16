@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 12:45:31 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 15:35:37 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 15:54:04 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,8 @@ void	ft_cd_parent(char **args, t_minishell *minishell)
 		return (minishell->last_exit_status = 1, (void)0);
 	argc = get_array_size(args);
 	if (argc > 2)
-	{
-		minishell->last_exit_status = EXIT_FAILURE;
-		return (put_builtin_error("cd", "", "too many arguments"));
-	}
+		return (minishell->last_exit_status = EXIT_FAILURE,
+			put_builtin_error("cd", "", "too many arguments"));
 	if (argc == 1)
 	{
 		cd_path = get_home_dir(minishell);

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/15 18:37:14 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 17:11:54 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdint.h>
-# include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -146,6 +146,8 @@ int				find_full_cmd_path(t_minishell *minishell,
 					t_cmd_grp *cmd_grp_node);
 /*Return 1 if `token` is one of the four redirection operators, 0 otherwise*/
 int				is_redir_opr(char *token);
+char			*token_is_unsupp_op(char *token);
+int				is_external_cmd(char *cmd_name);
 /*Create a child process that reads from heredoc until a delimiter is
 encountered, an EOF or `SIGINT` is received, or an error has occured*/
 int				handle_heredoc(char *delimiter, t_minishell *minishell);
@@ -271,8 +273,6 @@ void			vec_push_copy(t_minishell *minishell, t_vec *vec,
 					void *element);
 void			vec_push_ref(t_minishell *minishell, t_vec *vec, void *element);
 void			*vec_get(t_vec *vec, size_t index);
-void			vec_print_as_strings(t_vec *vec);
-void			vec_print_as_tokens(t_vec *vec);
 
 // TOKENIZER STUFF
 typedef enum e_token_type
@@ -314,9 +314,6 @@ char			*replace_environment_variables(t_minishell *minishell,
 int				ft_isspace(char c);
 int				ft_isquote(char c);
 int				ft_isoperator(char c);
-
-// Tokenizer debug things
-void			print_tokenized(char **tokenized);
 
 // Environment Variables
 typedef struct s_replaced_variable

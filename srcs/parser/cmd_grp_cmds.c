@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:42:44 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/15 14:19:14 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:53:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,50 +41,31 @@ static int	create_pipe(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 
 static int	count_args(t_minishell *minishell, int *i, t_cmd_grp *cmd_grp_node)
 {
-	int	arg_count;
+	int		arg_count;
+	char	*op_err;
 
 	arg_count = 0;
 	while (minishell->tokenized[*i]
 		&& ft_strncmp(minishell->tokenized[*i], "|", 2))
 	{
-		if (is_redir_opr(minishell->tokenized[*i]) &&
-			minishell->tokenized[*i + 1])
+		if (is_redir_opr(minishell->tokenized[*i])
+			&& minishell->tokenized[*i + 1])
 		{
 			if (update_cmd_grp_fds(minishell, cmd_grp_node,
-				minishell->tokenized[*i], minishell->tokenized[*i + 1]) == -1)
+					minishell->tokenized[*i],
+					minishell->tokenized[*i + 1]) == -1)
 				return (-1);
 			(*i) += 2;
 			continue ;
 		}
-		if (!ft_strncmp(minishell->tokenized[*i], "||", 3))
-			return(put_specific_error("||", CTRL_OP_ERR),
-				minishell->last_exit_status = 2, -1);
-		if (!ft_strncmp(minishell->tokenized[*i], "&&", 3))
-			return(put_specific_error("&&", CTRL_OP_ERR),
-				minishell->last_exit_status = 2, -1);
-		if (!ft_strncmp(minishell->tokenized[*i], "\n", 2))
-			return(put_specific_error("\\n (newline)", CTRL_OP_ERR),
+		op_err = token_is_unsupp_op(minishell->tokenized[*i]);
+		if (op_err)
+			return (put_specific_error(op_err, CTRL_OP_ERR),
 				minishell->last_exit_status = 2, -1);
 		arg_count++;
 		(*i)++;
 	}
 	return (arg_count);
-}
-
-static int	is_external_cmd(char *cmd_name)
-{
-	if (!ft_strncmp(cmd_name, "echo", 5)
-		|| !ft_strncmp(cmd_name, "cd", 3)
-		|| !ft_strncmp(cmd_name, "pwd", 4)
-		|| !ft_strncmp(cmd_name, "export", 7)
-		|| !ft_strncmp(cmd_name, "unset", 6)
-		|| !ft_strncmp(cmd_name, "env", 4)
-		|| !ft_strncmp(cmd_name, "exit", 5)
-		|| (ft_strchr(cmd_name, '=') && *cmd_name != '='))
-	{
-		return (0);
-	}
-	return (1);
 }
 
 static char	**copy_cmd_args(t_minishell *minishell, int arg_count,
@@ -97,7 +78,8 @@ int cmd_start)
 	cmd_args = gc_malloc(sizeof(char *) * (arg_count + 1), minishell);
 	i = cmd_start;
 	j = 0;
-	while (minishell->tokenized[i] && ft_strncmp(minishell->tokenized[i], "|", 2))
+	while (minishell->tokenized[i]
+		&& ft_strncmp(minishell->tokenized[i], "|", 2))
 	{
 		if (is_redir_opr(minishell->tokenized[i])
 			&& minishell->tokenized[i + 1])

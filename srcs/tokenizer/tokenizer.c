@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 03:55:38 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 16:58:04 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	tokenizer(t_minishell *minishell)
 	index = 0;
 	while (minishell->input[index])
 	{
-		// get_next_token allocates memory for the token
 		token = get_next_token(minishell, index);
 		if (token.read_length == 0)
 		{
@@ -61,12 +60,8 @@ int	tokenizer(t_minishell *minishell)
 			break ;
 		}
 		index += token.read_length;
-		// printf("Skipping by %zu chars\n", token.read_length);
 		vec_push_copy(minishell, &tokens_vec, &token);
 	}
 	tokens_to_array(minishell, &tokens_vec);
-	//! For debugging
-	// vec_print_as_tokens(&tokens_vec);
-	// print_tokenized(minishell->tokenized);
 	return (1);
 }

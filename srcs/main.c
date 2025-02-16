@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 17:11:09 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 17:00:33 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 
-	// printf("minishell's pid is %i\n", getpid()); // for testing
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{

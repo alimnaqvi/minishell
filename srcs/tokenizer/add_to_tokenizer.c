@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 04:48:15 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:10:55 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,9 +112,9 @@ void	tokens_to_array(t_minishell *minishell, t_vec *vec)
 		}
 		else
 		{
-			new_string = ft_strjoin(previous_string_pointer, token->string);
+			new_string = gc_ft_strjoin(previous_string_pointer,
+					token->string, minishell);
 			gc_free(previous_string_pointer, minishell);
-			gc_add_to_allocs(new_string, minishell);
 			previous_string_pointer = new_string;
 			replace_last_token(minishell, previous_string_pointer);
 		}

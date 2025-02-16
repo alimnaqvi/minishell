@@ -6,19 +6,19 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:26:56 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/15 12:27:42 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:07:59 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_exit_parent(char **args, t_minishell *minishell)
+void	ft_exit_parent(char **args, t_minishell *minishell)
 {
 	int		argc;
 	int		exit_status_arg;
 
 	if (!args || !(*args))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	argc = get_array_size(args);
 	if (argc == 1)
 	{
@@ -40,13 +40,13 @@ void ft_exit_parent(char **args, t_minishell *minishell)
 	gc_exit(minishell, exit_status_arg);
 }
 
-void ft_exit_child(char **args, t_minishell *minishell)
+void	ft_exit_child(char **args, t_minishell *minishell)
 {
 	int		argc;
 	int		exit_status_arg;
 
 	if (!args || !(*args))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	argc = get_array_size(args);
 	if (argc == 1)
 		gc_exit(minishell, minishell->last_exit_status);

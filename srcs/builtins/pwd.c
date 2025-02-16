@@ -6,13 +6,13 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 19:13:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 17:09:59 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:09:29 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_pwd(t_minishell *minishell)
+void	ft_pwd(t_minishell *minishell)
 {
 	char	buffer[PATH_MAX];
 

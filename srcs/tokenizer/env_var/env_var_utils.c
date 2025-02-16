@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 03:16:11 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 17:09:31 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ size_t	count_key_len(char *str)
 t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 {
 	char				*key_str;
-	t_replaced_var	replaced_variable;
+	t_replaced_var		replaced_variable;
 
 	if (*str == '?')
 	{
@@ -49,10 +49,7 @@ t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 		return (replaced_variable);
 	}
 	replaced_variable.key_len = count_key_len(str);
-	key_str = ft_substr(str, 0, replaced_variable.key_len);
-	if (key_str == NULL)
-		gc_exit(minishell, EXIT_FAILURE);
-	gc_add_to_allocs(key_str, minishell);
+	key_str = gc_ft_substr(str, 0, replaced_variable.key_len, minishell);
 	if (replaced_variable.key_len == 0)
 	{
 		replaced_variable.value = gc_malloc(sizeof(char) * 2, minishell);
