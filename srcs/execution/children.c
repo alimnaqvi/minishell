@@ -6,57 +6,38 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/16 13:01:01 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/11 19:46:40 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	update_fds(t_cmd_grp *cur_node, t_minishell *minishell)
+static int	update_fds(t_cmd_grp *cur_node, t_minishell *minishell)
 {
 	if (!cur_node)
-		return (gc_exit(minishell, EXIT_FAILURE));
+		return (-1);
 	if (cur_node->in_fd != STDIN_FILENO)
 	{
 		if (cur_node->in_fd == -1)
-			return (gc_exit(minishell, EXIT_FAILURE));
+			return (-1);
 		if (dup2(cur_node->in_fd, STDIN_FILENO) == -1)
-			return (shell_error("dup2 failed"), gc_exit(minishell, 1));
+			return (shell_error("dup2 failed"), -1);
 		gc_close(cur_node->in_fd, minishell);
 	}
 	if (cur_node->out_fd != STDOUT_FILENO)
 	{
 		if (cur_node->out_fd == -1)
-			return (gc_exit(minishell, EXIT_FAILURE));
+			return (-1);
 		if (dup2(cur_node->out_fd, STDOUT_FILENO) == -1)
-			return (shell_error("dup2 failed"), gc_exit(minishell, 1));
+			return (shell_error("dup2 failed"), -1);
 		gc_close(cur_node->out_fd, minishell);
 	}
 	gc_close_all_open_fds(minishell);
+	return (0);
 }
-
-// static void	check_file_or_dir(char *cmd_name, t_minishell *minishell)
-// {
-// 	struct stat	st;
-
-// 	if (stat(cmd_name, &st) == -1)
-// 		return ;
-// 	if ((S_ISREG(st.st_mode) && access(cmd_name, X_OK) == -1))
-// 	{
-// 		put_specific_error(cmd_name, "command not found");
-// 		gc_exit(minishell, 127);
-// 	}
-// 	if (S_ISDIR(st.st_mode))
-// 	{
-// 		put_specific_error(cmd_name, "Is a directory");
-// 		gc_exit(minishell, 126);
-// 	}
-// }
 
 static int	execve_exit_code(char *cmd_name)
 {
-	struct stat	st;
-
 	if (errno == ENOENT)
 	{
 		put_specific_error(cmd_name, "command not found");
@@ -64,24 +45,6 @@ static int	execve_exit_code(char *cmd_name)
 	}
 	else if (errno == EACCES)
 	{
-		if (stat(cmd_name, &st) == 0)
-		{
-			// if (access(cmd_name, X_OK) == -1)
-			// {
-			// 	shell_error(cmd_name);
-			// 	return (126);
-			// }
-			if (S_ISREG(st.st_mode))
-			{
-				put_specific_error(cmd_name, "command not found");
-				return (127);
-			}
-			if (S_ISDIR(st.st_mode))
-			{
-				put_specific_error(cmd_name, "Is a directory");
-				return (126);
-			}
-		}
 		shell_error(cmd_name);
 		return (126);
 	}
@@ -123,8 +86,8 @@ void	execute_ith_cmd_grp(int i, t_minishell *minishell)
 		{
 			if (set_signal_handler(CHILD) == -1)
 				return (gc_exit(minishell, EXIT_FAILURE));
-			update_fds(cur_node, minishell);
-			// check_file_or_dir(cur_node->cmd_name, minishell);
+			if (update_fds(cur_node, minishell) == -1)
+				return (gc_exit(minishell, EXIT_FAILURE));
 			if (cur_node->cmd_type == BUILTIN)
 				return (execute_builtin(cur_node, minishell));
 			else if (execve(cur_node->cmd_name, cur_node->cmd_args,
