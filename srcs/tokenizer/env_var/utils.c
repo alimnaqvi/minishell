@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 18:29:04 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 03:16:11 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,14 @@ t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 	if (key_str == NULL)
 		gc_exit(minishell, EXIT_FAILURE);
 	gc_add_to_allocs(key_str, minishell);
+	if (replaced_variable.key_len == 0)
+	{
+		replaced_variable.value = gc_malloc(sizeof(char) * 2, minishell);
+		replaced_variable.value[0] = '$';
+		replaced_variable.value[1] = '\0';
+		gc_free(key_str, minishell);
+		return (replaced_variable);
+	}
 	replaced_variable.value = get_env_var_value(key_str, minishell);
 	if (replaced_variable.value == NULL)
 	{
