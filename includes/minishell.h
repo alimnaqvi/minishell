@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/16 17:11:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/17 04:19:24 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,11 @@ void			execute_ith_cmd_grp(int i, t_minishell *minishell);
 If malloc fails, exit the program immediately.*/
 void			*gc_malloc(size_t size, t_minishell *minishell);
 /*
+Allocate memory for a string that is passed. 
+Counts the length of the string and then allocates using `gc_malloc` function
+*/
+char			*gc_malloc_str(t_minishell *minishell, const char *str);
+/*
 	Free the old memory and allocate new memory of the size
 	The new memory will still contain all the stuff that the old memory did
 */
@@ -274,6 +279,11 @@ void			vec_push_copy(t_minishell *minishell, t_vec *vec,
 void			vec_push_ref(t_minishell *minishell, t_vec *vec, void *element);
 void			*vec_get(t_vec *vec, size_t index);
 
+// Vector/Token debug
+void			vec_print_as_strings(t_vec *vec);
+void			vec_print_as_tokens(t_vec *vec);
+void			print_tokenized(char **tokenized);
+
 // TOKENIZER STUFF
 typedef enum e_token_type
 {
@@ -304,9 +314,13 @@ t_token			tokenize_quote(t_minishell *minishell, size_t index,
 t_token			tokenize_word(t_minishell *minishell, size_t index);
 t_token			tokenize_operator(t_minishell *minishell, size_t index);
 void			tokens_to_array(t_minishell *minishell, t_vec *vec);
-
-char			*replace_environment_variables(t_minishell *minishell,
-					char *input);
+char			*get_last_token(t_minishell *minishell);
+void			add_to_tokenized(t_minishell *minishell, char *str);
+void			replace_last_token(t_minishell *minishell, char *replacement);
+void			helper_function(char **previous_string_pointer, t_token	*token,\
+	t_minishell *minishell);
+void	second_helper(t_minishell *minishell, t_token *token,\
+	char **previous_string_pointer);
 
 // TOKENIZER UTILS
 // Return 1 in case the character is a space character

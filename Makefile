@@ -25,14 +25,16 @@ SRCS = $(addprefix $(SRCS_DIR)/, builtins/cd.c \
 		tokenizer/env_var/env_var_utils.c \
 		tokenizer/add_to_tokenizer.c \
 		tokenizer/get_next_token.c \
-		tokenizer/replace_environment_variables.c \
+		tokenizer/helper_functions.c \
+		tokenizer/print.c \
 		tokenizer/tokenize_operator.c \
 		tokenizer/tokenize_quote.c \
 		tokenizer/tokenize_space.c \
 		tokenizer/tokenize_word.c \
 		tokenizer/tokenizer.c \
 		tokenizer/token_utils.c \
-		utils/vector.c \
+		utils/vector/print.c \
+		utils/vector/vector.c \
 		utils/error_utils.c \
 		utils/ft_readline.c \
 		utils/safe_libft.c \

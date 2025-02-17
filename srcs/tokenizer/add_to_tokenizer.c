@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 17:10:55 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/17 04:14:20 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	*str_cpy(t_minishell *minishell, char *str)
-{
-	size_t	str_len;
-	char	*new_str;
-	size_t	index;
-
-	str_len = ft_strlen(str);
-	new_str = gc_malloc(sizeof(char) * (str_len + 1), minishell);
-	index = 0;
-	while (index < str_len)
-	{
-		new_str[index] = str[index];
-		index++;
-	}
-	new_str[index] = 0;
-	return (new_str);
-}
 
 char	*get_last_token(t_minishell *minishell)
 {
@@ -78,7 +60,7 @@ void	add_to_tokenized(t_minishell *minishell, char *str)
 		}
 		gc_free(minishell->tokenized, minishell);
 	}
-	new_tokenized[old_length++] = str_cpy(minishell, str);
+	new_tokenized[old_length++] = gc_malloc_str(minishell, str);
 	new_tokenized[old_length] = NULL;
 	minishell->tokenized = new_tokenized;
 }
@@ -88,7 +70,6 @@ void	tokens_to_array(t_minishell *minishell, t_vec *vec)
 	size_t	index;
 	t_token	*token;
 	char	*previous_string_pointer;
-	char	*new_string;
 
 	previous_string_pointer = NULL;
 	index = 0;
@@ -104,19 +85,11 @@ void	tokens_to_array(t_minishell *minishell, t_vec *vec)
 		}
 		else if (previous_string_pointer == NULL)
 		{
-			if (ft_strlen(token->string) > 0)
-			{
-				add_to_tokenized(minishell, token->string);
-				previous_string_pointer = get_last_token(minishell);
-			}
+			if (ft_strlen(token->string) == 0 && index == 1)
+				continue ;
+			second_helper(minishell, token, &previous_string_pointer);
 		}
 		else
-		{
-			new_string = gc_ft_strjoin(previous_string_pointer,
-					token->string, minishell);
-			gc_free(previous_string_pointer, minishell);
-			previous_string_pointer = new_string;
-			replace_last_token(minishell, previous_string_pointer);
-		}
+			helper_function(&previous_string_pointer, token, minishell);
 	}
 }
