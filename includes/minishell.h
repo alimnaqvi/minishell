@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/17 04:19:24 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:41:43 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,10 +317,10 @@ void			tokens_to_array(t_minishell *minishell, t_vec *vec);
 char			*get_last_token(t_minishell *minishell);
 void			add_to_tokenized(t_minishell *minishell, char *str);
 void			replace_last_token(t_minishell *minishell, char *replacement);
-void			helper_function(char **previous_string_pointer, t_token	*token,\
-	t_minishell *minishell);
-void	second_helper(t_minishell *minishell, t_token *token,\
-	char **previous_string_pointer);
+void			helper_function(char **previous_string_pointer, t_token	*token,
+					t_minishell *minishell);
+void			second_helper(t_minishell *minishell, t_token *token,
+					char **previous_string_pointer);
 
 // TOKENIZER UTILS
 // Return 1 in case the character is a space character
