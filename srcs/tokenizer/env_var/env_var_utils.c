@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_var_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/18 00:44:42 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 14:48:18 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 		return (gc_free(key_str, minishell), replaced_variable);
 	}
 	replaced_variable.value = get_env_var_value(key_str, minishell);
-	if (replaced_variable.value == NULL)
+	if (replaced_variable.value == NULL || replaced_variable.value[0] == '\0')
 		replaced_variable.value = NULL;
 	return (gc_free(key_str, minishell), replaced_variable);
 }

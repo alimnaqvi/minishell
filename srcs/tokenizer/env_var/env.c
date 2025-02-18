@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/18 04:55:36 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 14:48:56 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*replace_env(t_minishell *minishell, char *word)
 		{
 			replace = cut_variable(minishell, &(word[++index]));
 			index += replace.key_len;
-			if (replace.value == NULL)
+			if (replace.value == NULL || replace.value[0] == '\0')
 				continue ;
 			if (output_str == NULL)
 				output_str = gc_malloc_str(minishell, "");
