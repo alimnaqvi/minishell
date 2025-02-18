@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:11:13 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/14 18:22:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:38:52 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,15 @@ int	last_token_is_pipe(char **tokens)
 		return (1);
 	i = 0;
 	while (tokens[i])
+	{
+		if (i > 0)
+		{
+			if (!ft_strncmp(tokens[i - 1], "|", 2)
+				&& !ft_strncmp(tokens[i], "|", 2))
+				return (put_specific_error("'|'", "syntax error"), 1);
+		}
 		i++;
+	}
 	if (i > 0 && !ft_strncmp(tokens[i - 1], "|", 2))
 		return (put_specific_error("'|'", "syntax error"), 1);
 	return (0);
