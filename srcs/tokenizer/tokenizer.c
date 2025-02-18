@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/18 05:38:05 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 17:36:18 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ int	tokenizer(t_minishell *minishell)
 		vec_push_copy(minishell, &tokens_vec, &token);
 	}
 	tokens_to_array(minishell, &tokens_vec);
-	return (1);
+	return (gc_free(tokens_vec.elements, minishell), 1);
 }
