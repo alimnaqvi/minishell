@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 20:22:31 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:00:38 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,12 @@ static void	cleanup_before_loop(t_minishell *minishell)
 	gc_close_all_open_fds(minishell);
 }
 
-static void	setup_terminal(void)
+static void	setup_terminal(t_minishell *minishell)
 {
 	struct termios	term;
 
 	tcgetattr(STDIN_FILENO, &term);
+	minishell->original_term = term;
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
@@ -52,9 +53,9 @@ int	main(int argc, char **argv, char **envp)
 	t_minishell	minishell;
 
 	minishell = init_main_var(argc, argv, envp);
-	setup_terminal();
 	while (1)
 	{
+		setup_terminal(&minishell);
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
 		ft_readline(&minishell);

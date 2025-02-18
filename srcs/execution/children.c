@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 16:21:25 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 19:46:40 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:58:09 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ static void	execute_builtin(t_cmd_grp *cur_node, t_minishell *minishell)
 		ft_exit_child(cur_node->cmd_args, minishell);
 }
 
+void	restore_terminal_settings(t_minishell *minishell)
+{
+	tcsetattr(STDIN_FILENO, TCSANOW, &(minishell->original_term));
+}
+
 void	execute_ith_cmd_grp(int i, t_minishell *minishell)
 {
 	int			cur_index;
@@ -84,6 +89,7 @@ void	execute_ith_cmd_grp(int i, t_minishell *minishell)
 	{
 		if (cur_index == i)
 		{
+			restore_terminal_settings(minishell);
 			if (set_signal_handler(CHILD) == -1)
 				return (gc_exit(minishell, EXIT_FAILURE));
 			if (update_fds(cur_node, minishell) == -1)

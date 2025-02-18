@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:24:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/15 18:30:51 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:14:48 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ static int	validate_count_cmd_grps(t_minishell *minishell)
 	{
 		if (!(cur_node->cmd_name) || !(cur_node->cmd_args)
 			|| !(minishell->cmd_grp_strt->cmd_args[0]))
-			return (ft_putendl_fd("minishell: syntax error", 2),
-				minishell->last_exit_status = 2, -1);
+			return (-1);
 		if (has_unsupported_operator(cur_node->cmd_name))
 			return (minishell->last_exit_status = 2, -1);
 		count_cmd_grps++;

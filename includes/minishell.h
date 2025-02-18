@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 20:04:54 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:58:41 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,12 +107,13 @@ received with readline function.
 */
 struct s_minishell
 {
-	t_cmd_grp	*cmd_grp_strt;
-	t_garbage	garbage;
-	char		*input;
-	char		**mini_env;
-	char		**tokenized;
-	int			last_exit_status;
+	t_cmd_grp		*cmd_grp_strt;
+	t_garbage		garbage;
+	char			*input;
+	char			**mini_env;
+	char			**tokenized;
+	int				last_exit_status;
+	struct termios	original_term;
 };
 
 // asdasd< "something in put" 123
@@ -199,6 +200,7 @@ void			ft_exit_child(char **args, t_minishell *minishell);
 Update `minishell.last_exit_status` based on the exit status of the last
 command in the pipeline*/
 void			execution(t_minishell *minishell);
+void			restore_terminal_settings(t_minishell *minishell);
 /*Traverse the command group list (`minishell.cmd_grp_strt`) and execute
 the command group indicated by the index `i`. After execution, exit the child
 with `exit` and the appropriate exit status*/
