@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 03:15:50 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 04:55:36 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,19 +92,22 @@ char	*replace_env(t_minishell *minishell, char *word)
 	size_t			index;
 	char			*output_str;
 	char			*tmp;
-	t_replaced_var	replacmnt;
+	t_replaced_var	replace;
 
-	output_str = gc_malloc(sizeof(char), minishell);
-	output_str[0] = 0;
+	output_str = NULL;
 	index = 0;
 	while (word[index])
 	{
 		if (word[index] == '$')
 		{
-			replacmnt = cut_variable(minishell, &(word[++index]));
-			index += replacmnt.key_len;
+			replace = cut_variable(minishell, &(word[++index]));
+			index += replace.key_len;
+			if (replace.value == NULL)
+				continue ;
+			if (output_str == NULL)
+				output_str = gc_malloc_str(minishell, "");
 			tmp = output_str;
-			output_str = gc_ft_strjoin(output_str, replacmnt.value, minishell);
+			output_str = gc_ft_strjoin(output_str, replace.value, minishell);
 			gc_free(tmp, minishell);
 			continue ;
 		}

@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/22 16:32:15 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/16 22:28:25 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 05:07:40 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_token	tokenize_quote(t_minishell *minishell, size_t index, char quote)
 	{
 		replaced = replace_env(minishell, token.string);
 		if (replaced == NULL)
-			gc_exit(minishell, EXIT_FAILURE);
+			replaced = gc_malloc_str(minishell, "");
 		gc_free(token.string, minishell);
 		token.string = replaced;
 	}

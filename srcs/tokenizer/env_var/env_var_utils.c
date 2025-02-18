@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:20:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/17 02:39:58 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 00:44:42 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_replaced_var	cut_variable(t_minishell *minishell, char *str)
 	}
 	replaced_variable.value = get_env_var_value(key_str, minishell);
 	if (replaced_variable.value == NULL)
-		replaced_variable.value = gc_malloc_str(minishell, "");
+		replaced_variable.value = NULL;
 	return (gc_free(key_str, minishell), replaced_variable);
 }
 
@@ -66,8 +66,17 @@ char	*str_add_char(t_minishell *minishell, char *str, char c)
 	char	*new_str;
 	size_t	str_len;
 
-	str_len = ft_strlen(str);
-	new_str = gc_realloc(sizeof(char) * (str_len + 2), str, minishell);
+	if (str == NULL)
+	{
+		new_str = gc_malloc_str(minishell, " ");
+		new_str[0] = c;
+		return (new_str);
+	}
+	else
+	{
+		str_len = ft_strlen(str);
+		new_str = gc_realloc(sizeof(char) * (str_len + 2), str, minishell);
+	}
 	new_str[str_len] = c;
 	new_str[str_len + 1] = 0;
 	return (new_str);

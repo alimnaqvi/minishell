@@ -6,7 +6,7 @@
 /*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/17 02:14:01 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 05:38:05 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int	tokenizer(t_minishell *minishell)
 			break ;
 		}
 		index += token.read_length;
+		if (token.string == NULL)
+			continue ;
 		vec_push_copy(minishell, &tokens_vec, &token);
 	}
 	tokens_to_array(minishell, &tokens_vec);
