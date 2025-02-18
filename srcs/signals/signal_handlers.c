@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 18:37:56 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 19:44:19 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 20:07:31 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static void	signal_handler_interactive(int signum)
 		rl_done = 1;
 	}
 	else if (signum == SIGQUIT)
-		g_signal_received = SIGQUIT;
+	{
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 static void	signal_handler_heredoc(int signum)
