@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/17 04:14:20 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:36:38 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,6 @@ void	tokens_to_array(t_minishell *minishell, t_vec *vec)
 		}
 		else if (previous_string_pointer == NULL)
 		{
-			if (ft_strlen(token->string) == 0 && index == 1)
-				continue ;
 			second_helper(minishell, token, &previous_string_pointer);
 		}
 		else
