@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 17:11:13 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 22:38:52 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:40:13 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	put_builtin_error(char *builtin_name, char *problem, char *msg)
 	ft_putendl_fd(msg, STDERR_FILENO);
 }
 
-int	last_token_is_pipe(char **tokens)
+int	pipe_syntax_error(char **tokens)
 {
 	int	i;
 

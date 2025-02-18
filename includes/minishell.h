@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 20:58:41 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 22:40:13 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -354,7 +354,7 @@ void			put_specific_error(char *problem, char *msg);
 - if `problem` is an empty string: "minishell: `builtin_name`: `msg`"
 - otherwise: "minishell: `builtin_name`: `problem`: `msg`"*/
 void			put_builtin_error(char *builtin_name, char *problem, char *msg);
-int				last_token_is_pipe(char **tokens);
+int				pipe_syntax_error(char **tokens);
 /*Like `perror` but prepends "minishell: " before `perrors`'s output*/
 void			shell_error(const char *msg);
 /*Extract exit status using bitwise operations on `status` set by `waitpid`.
