@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenize_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:39:09 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:46:16 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 01:37:30 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

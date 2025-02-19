@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 15:18:14 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:40:36 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 14:48:56 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,25 +89,25 @@ char	*get_env(t_minishell *minishell, char *key)
 
 char	*replace_env(t_minishell *minishell, char *word)
 {
-	size_t				index;
-	char				*output_str;
-	char				*tmp;
-	t_replaced_variable	replacement;
+	size_t			index;
+	char			*output_str;
+	char			*tmp;
+	t_replaced_var	replace;
 
-	output_str = gc_malloc(sizeof(char), minishell);
-	output_str[0] = 0;
+	output_str = NULL;
 	index = 0;
 	while (word[index])
 	{
 		if (word[index] == '$')
 		{
-			replacement = cut_variable(minishell, &(word[++index]));
-			index += replacement.key_len;
-			tmp = output_str;
-			output_str = ft_strjoin(output_str, replacement.value);
+			replace = cut_variable(minishell, &(word[++index]));
+			index += replace.key_len;
+			if (replace.value == NULL || replace.value[0] == '\0')
+				continue ;
 			if (output_str == NULL)
-				gc_exit(minishell, EXIT_FAILURE);
-			gc_add_to_allocs(output_str, minishell);
+				output_str = gc_malloc_str(minishell, "");
+			tmp = output_str;
+			output_str = gc_ft_strjoin(output_str, replace.value, minishell);
 			gc_free(tmp, minishell);
 			continue ;
 		}

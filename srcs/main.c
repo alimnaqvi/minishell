@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 15:34:31 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 21:00:38 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-volatile sig_atomic_t	g_signal_received;
+t_signal	g_signal_received;
 
 static t_minishell	init_main_var(int argc, char **argv, char **envp)
 {
@@ -38,22 +38,33 @@ static void	cleanup_before_loop(t_minishell *minishell)
 	gc_close_all_open_fds(minishell);
 }
 
+static void	setup_terminal(t_minishell *minishell)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	minishell->original_term = term;
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	minishell;
 
-	printf("minishell's pid is %i\n", getpid()); // for testing
 	minishell = init_main_var(argc, argv, envp);
 	while (1)
 	{
+		setup_terminal(&minishell);
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
 		ft_readline(&minishell);
-		printf("You typed \"%s\"!\n", minishell.input);
-		/*lexer here*/
-		if (tokenizer(&minishell) < 0)
-			gc_exit(&minishell, EXIT_FAILURE);
 		set_signal_handler(NON_INTERACTIVE);
+		if (tokenizer(&minishell) < 0)
+		{
+			gc_free(minishell.input, &minishell);
+			continue ;
+		}
 		if (parser(&minishell) != -1 && g_signal_received != SIGINT)
 			execution(&minishell);
 		cleanup_before_loop(&minishell);

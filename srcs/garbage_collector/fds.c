@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 20:26:16 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/22 11:31:39 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:12:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	gc_close(int fd, t_minishell *minishell)
 	}
 }
 
-void gc_close_all_open_fds(t_minishell *minishell)
+void	gc_close_all_open_fds(t_minishell *minishell)
 {
 	if (!minishell || !(minishell->garbage.open_fds))
 		return ;

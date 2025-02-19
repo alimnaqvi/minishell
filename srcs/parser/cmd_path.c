@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:25:30 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/13 17:09:47 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/16 18:47:01 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,10 @@ int	find_full_cmd_path(t_minishell *minishell, t_cmd_grp *cmd_grp_node)
 
 	if (cmd_grp_node->cmd_type == EXTERNAL)
 	{
+		if (!(cmd_grp_node->cmd_name))
+			return (-1);
+		if (!(cmd_grp_node->cmd_name[0]))
+			return (0);
 		if (!access(cmd_grp_node->cmd_name, X_OK))
 			return (0);
 		paths = get_paths(minishell->mini_env, minishell);

@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/09 14:31:11 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 17:39:27 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/18 21:05:42 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,16 @@ char *s1, char *s2)
 {
 	if (!minishell || !cmd_grp_node || !s1)
 		return (-1);
-	if (!ft_strncmp(s1, "<", 2))
+	if (!ft_strncmp(s1, "<", 2) && cmd_grp_node->in_fd != -1
+		&& cmd_grp_node->out_fd != -1)
 		cmd_grp_node->in_fd = handle_infile(s2, minishell);
 	else if (!ft_strncmp(s1, "<<", 3))
 		cmd_grp_node->in_fd = handle_heredoc(s2, minishell);
-	else if (!ft_strncmp(s1, ">", 2))
+	else if (!ft_strncmp(s1, ">", 2) && cmd_grp_node->in_fd != -1
+		&& cmd_grp_node->out_fd != -1)
 		cmd_grp_node->out_fd = handle_outfile(s2, O_TRUNC, minishell);
-	else if (!ft_strncmp(s1, ">>", 3))
+	else if (!ft_strncmp(s1, ">>", 3) && cmd_grp_node->in_fd != -1
+		&& cmd_grp_node->out_fd != -1)
 		cmd_grp_node->out_fd = handle_outfile(s2, O_APPEND, minishell);
 	if (g_signal_received == SIGINT)
 		return (-1);

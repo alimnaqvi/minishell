@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 12:45:31 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/13 15:35:37 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/17 14:42:13 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,26 @@ static char	*get_home_dir(t_minishell *minishell)
 	return (home_dir);
 }
 
+static int	ft_chdir_update_env(char *cd_path, t_minishell *minishell)
+{
+	char	*old_pwd;
+
+	if (!*cd_path)
+		return (EXIT_SUCCESS);
+	if (chdir(cd_path) == -1)
+		return (minishell->last_exit_status = 1, ft_strerror(cd_path), 1);
+	old_pwd = get_env_var_value("PWD", minishell);
+	if (old_pwd)
+		update_env_var("OLDPWD", old_pwd, minishell);
+	update_env_var("PWD", cd_path, minishell);
+	return (EXIT_SUCCESS);
+}
+
 void	ft_cd_child(char **args, t_minishell *minishell)
 {
 	int		argc;
 	char	*cd_path;
-	char	*old_pwd;
+	int		exit_status;
 
 	if (!args || !(*args))
 		return (gc_exit(minishell, EXIT_FAILURE));
@@ -60,29 +75,21 @@ void	ft_cd_child(char **args, t_minishell *minishell)
 	}
 	else
 		cd_path = args[1];
-	if (chdir(cd_path) == -1)
-		return (ft_strerror(cd_path), gc_exit(minishell, EXIT_FAILURE));
-	old_pwd = get_env_var_value("PWD", minishell);
-	if (old_pwd)
-		update_env_var("OLDPWD", old_pwd, minishell);
-	update_env_var("PWD", cd_path, minishell);
-	gc_exit(minishell, EXIT_SUCCESS);
+	exit_status = ft_chdir_update_env(cd_path, minishell);
+	gc_exit(minishell, exit_status);
 }
 
 void	ft_cd_parent(char **args, t_minishell *minishell)
 {
 	int		argc;
 	char	*cd_path;
-	char	*old_pwd;
 
 	if (!args || !(*args))
 		return (minishell->last_exit_status = 1, (void)0);
 	argc = get_array_size(args);
 	if (argc > 2)
-	{
-		minishell->last_exit_status = EXIT_FAILURE;
-		return (put_builtin_error("cd", "", "too many arguments"));
-	}
+		return (minishell->last_exit_status = EXIT_FAILURE,
+			put_builtin_error("cd", "", "too many arguments"));
 	if (argc == 1)
 	{
 		cd_path = get_home_dir(minishell);
@@ -91,10 +98,5 @@ void	ft_cd_parent(char **args, t_minishell *minishell)
 	}
 	else
 		cd_path = args[1];
-	if (chdir(cd_path) == -1)
-		return (minishell->last_exit_status = 1, ft_strerror(cd_path));
-	old_pwd = get_env_var_value("PWD", minishell);
-	if (old_pwd)
-		update_env_var("OLDPWD", old_pwd, minishell);
-	update_env_var("PWD", cd_path, minishell);
+	ft_chdir_update_env(cd_path, minishell);
 }

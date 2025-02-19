@@ -3,26 +3,44 @@
 /*                                                        :::      ::::::::   */
 /*   add_to_tokenizer.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/20 16:03:13 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:42:13 by rreimann         ###   ########.fr       */
+/*   Updated: 2025/02/18 18:36:38 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	initialize_tokenizer(t_minishell *minishell)
+char	*get_last_token(t_minishell *minishell)
 {
-	char	*tokenizer_terminator;
+	size_t	index;
 
-	tokenizer_terminator = gc_malloc(sizeof(char *), minishell);
-	tokenizer_terminator = NULL;
+	index = 0;
+	while (minishell->tokenized[index] != NULL)
+	{
+		index++;
+	}
+	index--;
+	return (minishell->tokenized[index]);
+}
+
+void	replace_last_token(t_minishell *minishell, char *replacement)
+{
+	size_t	index;
+
+	index = 0;
+	while (minishell->tokenized[index] != NULL)
+	{
+		index++;
+	}
+	index--;
+	minishell->tokenized[index] = replacement;
 }
 
 // The passed `str` must always be a valid C string, 
 // and have at least one character
-void	add_to_tokenizer(t_minishell *minishell, char *str)
+void	add_to_tokenized(t_minishell *minishell, char *str)
 {
 	int		old_length;
 	char	**new_tokenized;
@@ -42,7 +60,7 @@ void	add_to_tokenizer(t_minishell *minishell, char *str)
 		}
 		gc_free(minishell->tokenized, minishell);
 	}
-	new_tokenized[old_length++] = str;
+	new_tokenized[old_length++] = gc_malloc_str(minishell, str);
 	new_tokenized[old_length] = NULL;
 	minishell->tokenized = new_tokenized;
 }
@@ -51,17 +69,25 @@ void	tokens_to_array(t_minishell *minishell, t_vec *vec)
 {
 	size_t	index;
 	t_token	*token;
+	char	*previous_string_pointer;
 
+	previous_string_pointer = NULL;
 	index = 0;
 	while (index < vec->length)
 	{
-		token = vec_get(vec, index);
+		token = vec_get(vec, index++);
 		if (token->type == TOKEN_SPACE)
+			previous_string_pointer = NULL;
+		else if (token->type == TOKEN_OPERATOR)
 		{
-			index++;
-			continue ;
+			previous_string_pointer = NULL;
+			add_to_tokenized(minishell, token->string);
 		}
-		add_to_tokenizer(minishell, token->string);
-		index++;
+		else if (previous_string_pointer == NULL)
+		{
+			second_helper(minishell, token, &previous_string_pointer);
+		}
+		else
+			helper_function(&previous_string_pointer, token, minishell);
 	}
 }

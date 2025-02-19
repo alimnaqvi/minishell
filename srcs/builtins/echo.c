@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 15:26:19 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/09 15:26:33 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 15:57:23 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 void	ft_echo(char **args, t_minishell *minishell)
 {
-	int newline;
+	int	newline;
 
 	if (!args)
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	args++;
 	if (!(*args))
 		return (gc_exit(minishell, EXIT_SUCCESS));
@@ -30,12 +30,12 @@ void	ft_echo(char **args, t_minishell *minishell)
 		newline = 1;
 	while (*args)
 	{
-		printf("%s", *args);
+		ft_putstr_fd(*args, STDOUT_FILENO);
 		if (*(args + 1))
-			printf(" ");
+			ft_putstr_fd(" ", STDOUT_FILENO);
 		args++;
 	}
 	if (newline)
-		printf("\n");
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	gc_exit(minishell, EXIT_SUCCESS);
 }

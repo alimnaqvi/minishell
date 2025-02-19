@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/09 17:06:55 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 16:50:51 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 15:58:43 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	update_env_var(char *var_name, char *var_val, t_minishell *minishell)
 
 	if (!var_name || !var_val || !minishell->mini_env)
 		return ;
-
 	i = 0;
 	var_name_eqsign = gc_ft_strjoin(var_name, "=", minishell);
 	var_name_val = gc_ft_strjoin(var_name_eqsign, var_val, minishell);
@@ -94,7 +93,7 @@ void	ft_env(t_minishell *minishell)
 	int	i;
 
 	if (!(minishell->mini_env))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	i = 0;
 	while (minishell->mini_env[i])
 	{

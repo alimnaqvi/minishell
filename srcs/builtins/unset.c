@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 19:41:18 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/11 20:32:06 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:09:50 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	ft_unset_child(char **args, t_minishell *minishell)
 	int		i;
 
 	if (!args || !(*args) || !(minishell->mini_env))
-		return(gc_exit(minishell, EXIT_FAILURE));
+		return (gc_exit(minishell, EXIT_FAILURE));
 	i = 1;
 	if (!(args[i]))
 		return (gc_exit(minishell, EXIT_SUCCESS));
@@ -62,7 +62,7 @@ void	ft_unset_parent(char **args, t_minishell *minishell)
 	int		i;
 
 	if (!args || !(*args) || !(minishell->mini_env))
-		return(minishell->last_exit_status = 1, (void)0);
+		return (minishell->last_exit_status = 1, (void)0);
 	i = 1;
 	if (!(args[i]))
 		return ;

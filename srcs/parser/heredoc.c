@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 17:39:04 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/01/15 19:12:38 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/16 16:53:49 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ static int	fork_for_heredoc(char *delimiter, t_minishell *minishell)
 		gc_exit(minishell, EXIT_SUCCESS);
 	}
 	waitpid(pid, &status, 0);
-	printf("Heredoc child %i exited with status %i\n", pid, get_exit_status(status)); // for testing
 	minishell->last_exit_status = get_exit_status(status);
 	return (0);
 }

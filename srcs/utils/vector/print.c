@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/21 18:21:07 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:38:52 by rreimann         ###   ########.fr       */
+/*   Created: 2025/02/16 22:31:04 by rreimann          #+#    #+#             */
+/*   Updated: 2025/02/16 22:31:07 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

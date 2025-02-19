@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rreimann <rreimann@student.42heilbronn.de> +#+  +:+       +#+        */
+/*   By: rreimann <rreimann@42heilbronn.de>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/22 19:18:43 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/13 15:47:10 by rreimann         ###   ########.fr       */
+/*   Created: 2025/02/17 00:50:18 by rreimann          #+#    #+#             */
+/*   Updated: 2025/02/17 00:50:25 by rreimann         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_isspace(char c)
+void	print_tokenized(char **tokenized)
 {
-	return (c == '\t' || c == '\n' || c == '\v' || \
-		c == '\f' || c == '\r' || c == ' ');
-}
+	int	index;
 
-int	ft_isquote(char c)
-{
-	return (c == '\'' || c == '"');
+	if (tokenized == NULL)
+		return ;
+	index = 0;
+	while (tokenized[index] != NULL)
+	{
+		printf("%d tokenized: '%s'\n", index, tokenized[index]);
+		index++;
+	}
 }
