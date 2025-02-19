@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:54:26 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 21:00:38 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:10:24 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ int	main(int argc, char **argv, char **envp)
 		setup_terminal(&minishell);
 		g_signal_received = 0;
 		set_signal_handler(INTERACTIVE);
-		ft_readline(&minishell);
-		set_signal_handler(NON_INTERACTIVE);
-		if (tokenizer(&minishell) < 0)
+		if (ft_readline(&minishell) < 0 || tokenizer(&minishell) < 0)
 		{
 			gc_free(minishell.input, &minishell);
 			continue ;

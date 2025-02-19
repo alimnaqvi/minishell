@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 15:55:21 by anaqvi            #+#    #+#             */
-/*   Updated: 2025/02/18 22:40:13 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:11:14 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ int				get_array_size(char **arr);
 /*Make a copy of a `char **` (2-dimensional array of characters).
 If malloc fails, exit the program immediately.*/
 char			**copy_2d_char_arr(char **arr, t_minishell *minishell);
-void			ft_readline(t_minishell *minishell);
+int			ft_readline(t_minishell *minishell);
 
 // VECTOR STUFF
 // The idea of this type is that you can just use convenient functions on it

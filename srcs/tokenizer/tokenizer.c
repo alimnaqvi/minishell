@@ -6,7 +6,7 @@
 /*   By: anaqvi <anaqvi@student.42heilbronn.de>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/10 16:50:55 by rreimann          #+#    #+#             */
-/*   Updated: 2025/02/18 17:36:18 by anaqvi           ###   ########.fr       */
+/*   Updated: 2025/02/19 11:26:16 by anaqvi           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	tokenizer(t_minishell *minishell)
 
 	if (!minishell)
 		return (gc_exit(minishell, EXIT_FAILURE), -1);
-	if (has_unclosed_quote(minishell->input))
+	if (has_unclosed_quote(minishell->input)) // can be removed if in ft_readline
 		return (-1);
 	tokens_vec = vec_init(sizeof(t_token));
 	index = 0;
