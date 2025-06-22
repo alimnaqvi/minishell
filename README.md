@@ -12,7 +12,7 @@ This is a custom Unix shell implementation created as part of the 42 school curr
 
 For a comprehensive explanation of the project, the design choices, challenges faced, concepts learned, and detailed implementation insights (including our custom garbage collector), please read the accompanying blog post on my website:
 
-**[Creating a mini-shell in C](https://alimnaqvi.com/blog/minishell)**
+**[Writing a bash-like shell in C](https://alimnaqvi.com/blog/minishell)**
 
 ---
 
