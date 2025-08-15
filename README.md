@@ -96,4 +96,8 @@ This project provided hands-on experience with fundamental Unix and C programmin
 
 ## License
 
-This project was completed as part of the 42 school curriculum. Please adhere to 42 Network's policies regarding code sharing and usage.
+
+<p>
+   This project was completed as part of the 42 school curriculum. Please adhere to 42 Network's policies regarding code sharing and usage.
+   <img src="https://page-views-counter-534232554413.europe-west1.run.app/view?src=github.com&src_uri=/alimnaqvi/minishell" style="display: none;" />
+</p>
